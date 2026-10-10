@@ -1,180 +1,225 @@
 # Integrated Operating System Simulation & Resource Management Platform
 
 > **Academic Project:** 3rd-Year B.Tech Computer Science & Engineering  
-> **Domain:** Systems Software, Operating Systems, Relational DBMS Modeling, Interactive Simulation  
-> **Technology Stack:** React 18, Vite, Tailwind CSS, Lucide Icons, MySQL 8.0+ Schema (3NF), JavaScript (ES6+)
+> **Domain:** Operating Systems, Relational DBMS Architecture, Algorithmic Heuristics, Full-Stack Simulation  
+> **Technology Stack:** React 18, Vite, Tailwind CSS, Node.js (Express), MySQL 8.0/8.4+ (InnoDB), JavaScript (ES6+)  
 
 ---
 
-## 📌 Project Overview
+## 📌 Abstract & Project Overview
 
-The **Integrated Operating System Simulation and Resource Management Platform** is a full-stack, modular web environment designed to model, visualize, and benchmark the complete lifecycle of operating system kernel components. Unlike traditional fragmented simulators or command-line applets, this platform unifies all major kernel subsystems—**Process Scheduling, Memory Partitioning, Virtual Memory Demand Paging, Concurrency Synchronization, Deadlock Avoidance, Device I/O, File Systems, and MySQL Relational Persistence**—into a cohesive, real-time interactive dashboard.
+This project presents an integrated educational workbench that bridges core Operating System (OS) mechanics, relational database architectures (DBMS), and discrete algorithmic modeling. Designed to demystify low-level kernel abstractions, the platform delivers interactive, real-time visualization of process lifecycle orchestration, processor dispatching, multi-tier memory management, and concurrent resource arbitration.
 
-A key highlight is the **Scenario-Adaptive CPU Scheduling Engine**, which utilizes statistical heuristics (Burst Variance, Arrival Dispersion, Convoy Effect Hazard Detection, and Critical Priorities) to autonomously diagnose workload patterns and assign mathematically optimal scheduling policies without manual guesswork.
+At its foundation, the system governs task execution through fully synchronized **Process Control Blocks (PCBs)**, dynamically tracking identifier tags, arrival stamps, burst demands, priority tiers, and volatile register contexts across classical state transitions (*NEW, READY, RUNNING, WAITING, TERMINATED*).
 
----
-
-## 🌟 Key Subsystem Modules & Features
-
-### 1. 🔐 Dual-Mode Authentication & Multi-User Access (`/login`)
-* **Dual-Tab Interface:** Seamless switching between **Sign In** and **New User Registration**.
-* **Academic Role Profiles:** Supports *OS Student / Researcher*, *Faculty / Professor*, *Kernel Developer*, *Systems Engineer*, and *Academic Administrator*.
-* **Session Persistence:** LocalStorage-backed user registry with duplicate validation, active user credential pill in Top Navbar & Sidebar, and quick account switching.
-
-### 2. 🗄️ 5-Layer MySQL 8.0+ Architecture & SQL Console (`/sql-database`)
-* **Interactive 5-Layer Architecture Diagram:** Visualizes complete kernel data flow across *User Layer*, *Kernel Core Engine (with bidirectional feedback loop)*, *Device I/O Controllers*, *MySQL Database Layer*, and *Analytics Dashboard*.
-* **Normalized 3NF Relational Schemas:** Complete relational mapping for `processes`, `pcb_records`, `memory_partitions`, `resource_registry`, `thread_registry`, `io_request_queue`, `system_call_audit`, and `execution_history`.
-* **In-Memory SQL Console:** Live SQL query evaluator supporting `SELECT`, `INSERT`, `UPDATE`, `DELETE`, `SHOW TABLES`, and `DESCRIBE`.
-
-### 3. 🤖 Scenario-Adaptive CPU Scheduling Engine (`/cpu-scheduling`)
-* **Two Operational Modes:**
-  * **Mode 1 — Automatic Mode (Default):** The kernel autonomously inspects the active process queue, evaluates workload telemetry, diagnoses the scenario, and auto-assigns the optimal algorithm without user intervention.
-  * **Mode 2 — Manual Mode:** Unlocks manual controls for `FCFS`, `SJF`, `Priority`, `Round Robin`, `Preemptive Mode` toggle, and `Time Quantum (q)` input.
-* **Autonomous Decision Matrix:**
-  * 🛡️ *Critical Priority Tasks ($\text{Priority} \le 2$)* $\rightarrow$ **Priority (Preemptive)**
-  * ⚡ *Convoy Effect Hazard (Long job at $t=0$ blocking short jobs)* $\rightarrow$ **SRTF (Preemptive SJF)**
-  * 📊 *Batch Submissions with High Variance ($AT=0, CV \ge 0.35$)* $\rightarrow$ **SJF (Non-Preemptive)**
-  * 🔄 *Multi-User Interactive Time-Sharing* $\rightarrow$ **Round Robin** (with 80th-percentile calibrated quantum $q$)
-  * ⏱️ *Homogeneous Sequential Queue ($CV \le 0.15$)* $\rightarrow$ **FCFS (FIFO)**
-* **Loop Safety & Anti-Freeze Architecture:** Clamped input normalization (`CPUScheduler.normalizeProcessList`), hard loop safety guards (`cycles < maxCycles`), and direct timeline arrival jumping ensuring 100% crash-proof, sub-millisecond execution.
-* **Sample Real-World Workload Profiles:** 1-click loading for Workloads A through E + Inline Custom Process Builder.
-
-### 4. 🖹 Process Management & PCB Inspector (`/processes`)
-* **5-State Lifecycle:** Visual state transitions across `NEW`, `READY`, `RUNNING`, `WAITING`, and `TERMINATED`.
-* **Deep PCB Inspection Modal:** Detailed tracking of Program Counter (`PC`), CPU registers (`EAX`, `EBX`, `ECX`, `EDX`), memory allocation bounds, assigned virtual pages, held resources, and active thread counts.
-
-### 5. 💾 Dynamic Memory Partitioning & Fragmentation (`/memory-management`)
-* **Contiguous Memory Allocator:** Simulates a 1024 MB physical address space using **First-Fit**, **Best-Fit**, and **Worst-Fit** algorithms.
-* **Live Fragmentation Telemetry:** Computes exact **Internal Fragmentation** (within allocated blocks) and **External Fragmentation** (scattered unallocated holes) in real time.
-* **Dynamic Hole Coalescing:** Automatically merges adjacent free memory blocks upon process termination.
-
-### 6. 📄 Virtual Memory & Demand Paging (`/virtual-memory`)
-* **Multi-Frame Demand Paging:** Models physical frame allocations (1 to 8 frames) over dynamic page reference strings.
-* **Page Replacement Policies:** Evaluates **FIFO**, **LRU (Least Recently Used)**, and **Optimal** algorithms.
-* **Real-Time PFR Telemetry:** Outputs visual step-by-step frame allocation tables, Page Hit/Miss counts, and **Page Fault Ratios ($PFR$)**.
-
-### 7. 🛡️ Deadlock Management & Dijkstra’s Banker’s Algorithm (`/deadlock-management`)
-* **Banker’s Safety Verifier:** Dynamic matrix evaluation for Allocation, Maximum, Need ($Max - Alloc$), and Available vectors.
-* **Automated Safe Sequence Discovery:** Computes valid execution sequences (e.g., `<P1, P3, P4, P0, P2>`) with mathematical proofs.
-* **Resource Allocation Graph (RAG):** Dynamic SVG-based canvas visualizing resource hold-and-wait cycles and deadlock recovery mechanisms.
-
-### 8. 🧵 Threads & Concurrency Synchronization (`/threads-sync`)
-* **Multi-Threaded Spawner:** Hierarchical thread management per process.
-* **Concurrency Primitives:** Interactive critical section simulation modeling **Mutex Locks** and **Counting Semaphores**.
-* **Race Condition Isolation:** Demonstrates non-atomic concurrent access anomalies versus synchronized lock protection with microsecond timelines.
-
-### 9. 💽 Device I/O & Disk Head Scheduling (`/io-management`)
-* **Asynchronous Device Queues:** Multi-device request queues for Disk, Printer, Network, and Console.
-* **Disk Arm Trajectory Algorithms:** Simulates **FCFS**, **SSTF**, **SCAN (Elevator)**, **C-SCAN**, **LOOK**, and **C-LOOK**.
-* **Seek Optimization Analytics:** Calculates total cylinder head movements and renders visual arm traversal paths.
-
-### 10. 📁 Virtual File System & System Call Auditing (`/file-system` & `/system-calls`)
-* **UNIX-Style Virtual Tree:** Hierarchical folder exploration (`/`, `/Documents`, `/Backup`, `/Logs`) with file creation, editing, and permission masks (`rwxr-xr-x`).
-* **Kernel System Call Interceptor:** Intercepts, timestamps, and logs low-level kernel traps (`create_process()`, `allocate_memory()`, `request_io()`, `request_resource()`).
-
-### 11. 🚀 Flagship End-to-End Integrated Simulation (`/integrated-simulation`)
-* **Synchronized 13-Step Pipeline:** Demonstrates cross-module coordination as a single process moves from creation, memory allocation, CPU dispatch, I/O blocking, semaphore acquisition, disk writing, and termination across all dashboard modules simultaneously.
+The platform couples an **in-browser algorithmic engine** with a dedicated **Node.js backend bridge** connected to a live **MySQL 8.0/8.4+ database**, ensuring that simulation telemetry, hardware snapshots, and algorithmic benchmarks are persistently recorded rather than ephemeral.
 
 ---
 
-## 🏛️ System Architecture
+## 🏛️ Updated Project Approach & 5-Layer Architecture
+
+The system is engineered around a decoupled five-tier modular architecture designed to emulate kernel-level operations with deterministic precision while preserving strict state invariants across Process Control Blocks (PCBs):
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                        LAYER 1: USER INTERACTION & DASHBOARD LAYER                     │
-│    Dual-Mode Control (1. Automatic Scenario-Driven | 2. Manual), Role-Based Auth UI   │
+│                        LAYER 1: PRESENTATION & VISUAL DASHBOARD                        │
+│    Reactive Telemetry, Interactive Gantt Charts, Dynamic Memory Maps, SQL Console     │
 └───────────────────────────────────────────┬────────────────────────────────────────────┘
                                             ▼
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                   LAYER 2: AUTONOMOUS SCENARIO & TELEMETRY ENGINE                      │
-│     • Burst Variance (CV = σ/μ)         • Arrival Dispersion (ΔAT)                     │
-│     • Convoy Effect Hazard Detector     • 80th-Percentile Quantum Calibration          │
+│                   LAYER 2: AUTONOMOUS SCENARIO & WORKLOAD ANALYZER                     │
+│    Coefficient of Variation (CV = σ/μ) | Arrival Dispersion | Convoy Hazard Detection   │
 └───────────────────────────────────────────┬────────────────────────────────────────────┘
                                             ▼
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                       LAYER 3: CORE KERNEL SIMULATION SUBSYSTEMS                       │
+│                    LAYER 3: CORE KERNEL SIMULATION SUBSYSTEMS                          │
 │  ┌───────────────────────┬──────────────────────────┬───────────────────────────────┐  │
-│  │   CPU Scheduler       │    Memory Management     │   Deadlock & Synchronization  │  │
-│  │ • Autonomous SRTF/SJF │ • First/Best/Worst Fit   │ • Dijkstra's Banker's Safety  │  │
-│  │ • Round Robin / FCFS  │ • Demand Paging (LRU/OPT)│ • Semaphores / Mutex / RAG    │  │
-│  │ • Preemptive Priority │ • Fragmentation Tracker  │ • Race Condition Isolation    │  │
+│  │   CPU Dispatch Engine │    Memory Subsystem      │   Concurrency & Deadlock      │  │
+│  │ • FCFS, SJF, SRTF     │ • Contiguous Allocators  │ • Dijkstra's Banker's Safety  │  │
+│  │ • Quantum Round Robin │ • Demand Paging (LRU/OPT)│ • Mutex Locks & Semaphores    │  │
+│  │ • Preemptive Priority │ • Fragmentation Tracker  │ • Directed RAG Cycle Analyzer │  │
 │  └───────────────────────┴──────────────────────────┴───────────────────────────────┘  │
 │  ┌──────────────────────────────────────────────────┬───────────────────────────────┐  │
-│  │             Device I/O & Storage Subsystem       │   System Calls & File System  │  │
-│  │ • Disk Scheduling (SSTF, SCAN, LOOK, C-SCAN)     │ • Hierarchical Virtual Tree   │  │
-│  │ • Asynchronous I/O Device Request Queues         │ • Audit Logger (Syscall Traces)│  │
+│  │             Device I/O & Disk Scheduling         │   Virtual File System (VFS)   │  │
+│  │ • FCFS, SSTF, SCAN, C-SCAN, LOOK, C-LOOK         │ • Inode Hierarchy & Syscalls  │  │
 │  └──────────────────────────────────────────────────┴───────────────────────────────┘  │
 └───────────────────────────────────────────┬────────────────────────────────────────────┘
                                             ▼
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                LAYER 4: RELATIONAL DATA PERSISTENCE & AUDIT TRAIL LAYER                │
-│    Normalized MySQL 8.0+ Schema (3NF) | Process State Records | In-Memory SQL Console  │
+│                   LAYER 4: IN-MEMORY DATA PLANE & SIMULATION CACHE                     │
+│    Zero-Latency State Bus, PCB Context Dispatcher, Event Bus Telemetry Logger          │
 └───────────────────────────────────────────┬────────────────────────────────────────────┘
                                             ▼
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                    LAYER 5: REAL-TIME ANALYTICS & VISUALIZATION LAYER                  │
-│    Execution Gantt Charts | Memory Partition Maps | Frame Telemetry | Comparative Stats │
+│                LAYER 5: RELATIONAL DATA PERSISTENCE & MYSQL STORAGE ENGINE             │
+│    Node.js Express Bridge | ACID Transactions | MySQL 8.0/8.4+ InnoDB Relational Store │
 └────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 👥 3-Member Task Allocation Matrix
+## 🌟 Comprehensive Subsystem Modules & Features
 
-| Member | Assigned Project Role | Core Modules & Deliverables | Primary Technologies |
-| :--- | :--- | :--- | :--- |
-| **Member 1** | **Kernel Engine & CPU Scheduling Lead** | • PCB State Machine (`NEW` $\rightarrow$ `TERM`)<br>• Scenario-Driven CPU Optimizer<br>• Dual-Mode (Auto vs Manual)<br>• Loop-Safety Fixes & Gantt Visualizer | React 18, JavaScript (ES6+), Mathematical Heuristics, Vite |
-| **Member 2** | **Memory & Deadlock Safety Lead** | • Dynamic Memory (First/Best/Worst Fit)<br>• Virtual Paging (FIFO/LRU/Optimal)<br>• Banker's Algorithm & Safe Sequences<br>• Thread Semaphores & Mutex Sync | Matrix Math, Dynamic Partitioning, Concurrency Models |
-| **Member 3** | **Database, Storage & UI/UX Lead** | • 5-Layer MySQL Relational Architecture<br>• In-Memory SQL Console & State Persistence<br>• Disk Scheduling (SSTF/SCAN/LOOK)<br>• Role-Based Login & VFS Directory Tree | MySQL 8.0+ 3NF Schema, Tailwind CSS, Lucide Icons, Full-Stack |
+### 1. 🤖 Scenario-Adaptive CPU Scheduling Engine (`/cpu-scheduling`)
+* **Dual Operation Disciplines:**
+  * **Automatic Mode (AI Heuristic):** Inspects incoming task queues, computes burst variance ($\sigma/\mu$), checks arrival dispersion, detects Convoy hazards, and auto-dispatches the mathematically optimal scheduling policy.
+  * **Manual Mode:** Grants granular control over `FCFS`, `SJF`, `SRTF`, `Round Robin` (with dynamic time quantum $q$), and `Preemptive Priority`.
+* **Autonomous Decision Heuristics:**
+  * 🛡️ *Critical Priority Jobs ($\text{Priority} \le 2$)* $\rightarrow$ **Priority (Preemptive)**
+  * ⚡ *Convoy Effect Hazard (Long initial burst blocking short jobs)* $\rightarrow$ **SRTF (Preemptive SJF)**
+  * 📊 *Batch Submissions with High Variance ($AT=0, CV \ge 0.35$)* $\rightarrow$ **SJF (Non-Preemptive)**
+  * 🔄 *Interactive Time-Sharing Workloads* $\rightarrow$ **Round Robin** (calibrated with 80th-percentile quantum)
+  * ⏱️ *Uniform Arrival Queues ($CV \le 0.15$)* $\rightarrow$ **FCFS**
+* **Metrics Computed:** Waiting Time ($WT$), Turnaround Time ($TAT$), Response Time ($RT$), and Core Utilization.
+
+### 2. 🗄️ MySQL 8.0/8.4+ Database Hub & SQL Console (`/sql-database`)
+* **Host PC MySQL Integration:** Communicates over TCP port `3306` with your local MySQL Server via a Node.js Express bridge (`http://localhost:5000`).
+* **Interactive SQL Terminal:** Allows executing standard SQL queries (`SELECT`, `JOIN`, `WHERE`, `GROUP BY`, `INSERT`) against real database tables with sub-millisecond execution telemetry.
+* **1-Click Table Initialization:** Automated script creates `os_simulation_db` and all 10 normalized relational tables with sample records.
+* **State Synchronization:** "Sync OS State" button flushes live simulated processes, memory partitions, and resources directly to MySQL.
+* **In-Memory Fallback:** Automatically switches to client-side SQL emulation if MySQL is offline.
+
+### 3. 🖹 Process Management & PCB Inspector (`/processes`)
+* **5-State Process Lifecycle:** Strict validation across `NEW`, `READY`, `RUNNING`, `WAITING`, and `TERMINATED`.
+* **Hardware Context & PCB Modal:** Inspects Program Counter (`0x00401000`), CPU registers (`EAX`, `EBX`, `ECX`, `EDX`), memory allocation bounds, assigned virtual pages, held resources, and active threads.
+
+### 4. 💾 Dynamic Memory Partitioning & Fragmentation (`/memory-management`)
+* **Contiguous Placement Strategies:** Models 1024 MB physical address space using **First-Fit**, **Best-Fit**, and **Worst-Fit**.
+* **Fragmentation Telemetry:** Real-time computation of internal fragmentation (wasted partition capacity) and external fragmentation (unusable scattered holes).
+* **Hole Coalescing:** Dynamically merges adjacent free partitions upon process deallocation.
+
+### 5. 📄 Virtual Memory & Demand Paging (`/virtual-memory`)
+* **Demand Paging Simulator:** Simulates physical frame caches (1 to 8 frames) over custom or preset page reference strings.
+* **Page Replacement Policies:** Evaluates **FIFO**, **LRU (Least Recently Used)**, and **Belady's Optimal** algorithm.
+* **Telemetry:** Visual step-by-step frame state tables, hit/miss flags, and **Page Fault Ratios ($PFR$)**.
+
+### 6. 🛡️ Deadlock Avoidance & Banker's Algorithm (`/deadlock-management`)
+* **Dijkstra’s Banker’s Safety Test:** Real-time matrix computation of Allocation, Maximum, Need ($Max - Alloc$), and Available vectors.
+* **Safe Sequence Solver:** Determines executable sequences (e.g., `<P1, P3, P4, P0, P2>`) with mathematical proof logs.
+* **Directed Resource Allocation Graph (RAG):** Interactive canvas visualizing process-resource request/hold edges and circular wait cycles.
+
+### 7. 🧵 Threads & Concurrency Synchronization (`/threads-sync`)
+* **Thread Hierarchy:** Multi-threaded process workers.
+* **Synchronization Primitives:** Simulates **Mutex Locks** and **Counting Semaphores**.
+* **Race Condition Isolation:** Demonstrates non-atomic concurrent access corruption versus synchronized lock protection.
+
+### 8. 💽 Device I/O & Disk Scheduling (`/io-management`)
+* **Asynchronous Device Queues:** Request management for secondary storage, printer, and network controllers.
+* **Disk Arm Trajectory Algorithms:** Simulates **FCFS**, **SSTF**, **SCAN (Elevator)**, **C-SCAN**, **LOOK**, and **C-LOOK**.
+* **Seek Telemetry:** Calculates total cylinder head movement and plots visual head traversal paths.
+
+### 9. 📁 Virtual File System & System Call Auditing (`/file-system` & `/system-calls`)
+* **UNIX Inode Hierarchy:** Tree explorer (`/`, `/bin`, `/etc`, `/home`, `/logs`) with file creation, size tracking, and POSIX permissions (`rwxr-xr-x`).
+* **Kernel Trap Interceptor:** Timestamped audit trail of kernel system calls (`sys_fork`, `sys_read`, `sys_sem_wait`, `sys_brk`).
+
+### 10. 🔐 Dual-Mode Authentication & Academic RBAC (`/login`)
+* **Role-Based Profiles:** *Administrator*, *OS Student / Researcher*, *Faculty / Professor*, and *Systems Engineer*.
+* **Session Persistence:** Secure credential storage and instant role switching.
 
 ---
 
-## 🚀 Getting Started & Installation
+## 🗃️ MySQL Relational Schema Reference (10 Tables)
+
+The persistent database layer is structured across 10 normalized tables in `os_simulation_db`:
+
+| # | Table Name | Engine | Primary Key | Description |
+| :-: | :--- | :---: | :---: | :--- |
+| 1 | `users` | InnoDB | `id` | Academic authentication credentials and user access roles |
+| 2 | `processes` | InnoDB | `pid` | Process queue table with burst times, arrival stamps, and lifecycle states |
+| 3 | `pcb` | InnoDB | `pid` | Process Control Blocks tracking CPU registers, program counter, and memory limits |
+| 4 | `memory_allocations` | InnoDB | `block_id` | Physical 1024 MB RAM partitions and internal fragmentation metrics |
+| 5 | `resources` | InnoDB | `id` | Multi-instance system resources (R1–R4) and allocation matrix |
+| 6 | `system_calls` | InnoDB | `id` | Audit log of user-to-kernel mode POSIX system call traps |
+| 7 | `filesystem_nodes` | InnoDB | `id` | Hierarchical inodes, directory paths, file sizes, and POSIX permissions |
+| 8 | `threads` | InnoDB | `thread_id`| Lightweight execution threads bound to parent process PIDs |
+| 9 | `io_requests` | InnoDB | `request_id`| Secondary storage device queue and target cylinder tracks |
+| 10| `execution_history` | InnoDB | `id` | Global kernel event timeline and module execution logs |
+
+---
+
+## 👥 3-Member Task Allocation Matrix
+
+| Member | Project Role | Modules & Deliverables | Primary Stack |
+| :--- | :--- | :--- | :--- |
+| **Member 1** | **Kernel Engine & CPU Scheduling Lead** | • PCB State Machine (`NEW` $\rightarrow$ `TERMINATED`)<br>• Autonomous Scenario-Driven Heuristic Engine<br>• Dual-Mode CPU Optimizer (Auto vs. Manual)<br>• Execution Gantt Chart Visualizer | React 18, JavaScript (ES6+), Mathematical Heuristics, Vite |
+| **Member 2** | **Memory & Deadlock Safety Lead** | • Contiguous Allocator (First/Best/Worst Fit)<br>• Demand Paging Simulator (FIFO/LRU/Optimal)<br>• Dijkstra's Banker's Matrix & Safe Sequence Engine<br>• Mutex & Semaphore Synchronization | Dynamic Partitioning, Matrix Math, Concurrency Models |
+| **Member 3** | **Database, Backend & Storage Lead** | • Node.js Express MySQL Bridge Server (`port 5000`)<br>• MySQL 8.0/8.4+ 10-Table Relational Schema<br>• Interactive SQL Query Console & State Sync<br>• Disk Scheduling (SSTF/SCAN/LOOK) & Virtual FS | MySQL 8.4 (InnoDB), Node.js, Express, Tailwind CSS, Full-Stack |
+
+---
+
+## 🚀 Installation & Setup Guide
 
 ### Prerequisites
 * **Node.js** (v18.0 or higher)
 * **npm** (v9.0 or higher)
+* **MySQL Server 8.0 or 8.4+** (installed and running locally on port `3306`)
 
-### Setup & Launch Instructions
+---
 
-1. **Navigate to the frontend directory:**
-   ```bash
-   cd os-simulation-platform/frontend
-   ```
+### Step 1: Clone the Repository
+```bash
+git clone https://github.com/anshkumarsoni/Integrated-Operating-System-Simulation-And-Resource-Management-Platform-.git
+cd Integrated-Operating-System-Simulation-And-Resource-Management-Platform-
+```
 
-2. **Install project dependencies:**
-   ```bash
-   npm install
-   ```
+---
 
-3. **Start the local development server:**
-   ```bash
-   npm run dev
-   ```
+### Step 2: Configure MySQL Password
+Open `backend/.env` in a text editor and enter your local MySQL root password:
+```env
+PORT=5000
+MYSQL_HOST=localhost
+MYSQL_PORT=3306
+MYSQL_USER=root
+MYSQL_PASSWORD=your_mysql_password_here
+MYSQL_DATABASE=os_simulation_db
+```
 
-4. **Open in browser:**
-   Open [http://localhost:5173](http://localhost:5173) in your web browser.
+---
 
-### Default Login Credentials
-* **Username:** `admin` | **Password:** `admin123` *(Administrator)*
-* **Username:** `student` | **Password:** `student123` *(OS Student / Researcher)*
+### Step 3: Initialize Database & Tables
+Run the automated initialization script from the root folder:
+```bash
+npm run init:db
+```
+*This automatically connects to your MySQL server, creates the `os_simulation_db` database, builds all 10 tables, and inserts initial seed data.*
+
+---
+
+### Step 4: Start the MySQL Bridge Backend
+```bash
+npm run server
+```
+*The backend server will launch at `http://localhost:5000` and establish a live connection to MySQL on port `3306`.*
+
+---
+
+### Step 5: Start the Frontend Application
+Open a new terminal window and run:
+```bash
+npm run dev
+```
+*Open [http://localhost:5173](http://localhost:5173) in your browser.*
+
+---
+
+## 🔑 Default Login Credentials
+* **Administrator:** `username: admin` | `password: admin123`
+* **Student:** `username: student` | `password: student123`
 * *(Or use the "Register New User" tab to create your own custom academic account)*
 
 ---
 
 ## 🧪 Production Build & Verification
 
-To verify production readiness and bundling:
-
+To verify that the frontend compiles cleanly with zero warnings or errors:
 ```bash
-cd os-simulation-platform/frontend
 npm run build
 ```
-
-* **Output:** Clean production bundle compiled with **Vite** (**Exit Code: 0**, 1415 modules transformed).
-* **Latency:** Zero browser freezing, sub-millisecond execution latency across all simulation modules.
+* **Status:** Clean production bundle compiled via Vite (**Exit Code: 0**, 1415 modules transformed).
+* **Execution Latency:** Zero thread blocking, sub-millisecond execution times across all algorithmic modules.
 
 ---
 
 ## 📄 License & Academic Attribution
-Developed as an academic capstone project for **3rd-Year B.Tech Computer Science & Engineering**.
+Developed as an academic capstone project for **3rd-Year B.Tech Computer Science & Engineering**. Distributed under the **MIT License**.
