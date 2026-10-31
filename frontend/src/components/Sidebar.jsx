@@ -30,23 +30,23 @@ const Sidebar = ({ onClose }) => {
   const { user, logout } = useContext(AuthContext);
 
   return (
-    <div className="flex flex-col h-full bg-slate-900 border-r border-slate-800">
-      <div className="flex items-center h-16 px-4 border-b border-slate-800">
-        <Monitor className="w-6 h-6 text-blue-500 mr-2" />
-        <span className="text-lg font-bold text-slate-100 tracking-tight">OS Sim Platform</span>
+    <div className="flex flex-col h-full bg-white border-r border-slate-200 shadow-sm">
+      <div className="flex items-center h-16 px-4 border-b border-slate-100">
+        <Monitor className="w-6 h-6 text-indigo-600 mr-2" />
+        <span className="text-lg font-bold text-slate-800 tracking-tight">OS Sim Platform</span>
       </div>
 
-      <nav className="flex-1 overflow-y-auto py-4 space-y-1 px-2">
+      <nav className="flex-1 overflow-y-auto py-4 space-y-1 px-2.5">
         {navItems.map((item) => (
           <NavLink
             key={item.name}
             to={item.path}
             onClick={onClose}
             className={({ isActive }) =>
-              `flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+              `flex items-center px-3 py-2 rounded-xl text-sm font-medium transition-all ${
                 isActive
-                  ? 'bg-slate-800 text-blue-400 border-l-2 border-blue-500'
-                  : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200'
+                  ? 'bg-indigo-50 text-indigo-700 font-semibold border-l-4 border-indigo-600 shadow-xs'
+                  : 'text-slate-600 hover:bg-slate-100/70 hover:text-slate-900'
               }`
             }
           >
@@ -56,14 +56,14 @@ const Sidebar = ({ onClose }) => {
         ))}
       </nav>
 
-      <div className="p-4 border-t border-slate-800">
+      <div className="p-4 border-t border-slate-100 bg-slate-50/60">
         <div className="flex items-center justify-between">
           <div className="flex items-center min-w-0 pr-2">
-            <div className="p-1.5 bg-indigo-600/20 border border-indigo-500/30 text-indigo-400 rounded-lg shrink-0">
+            <div className="p-1.5 bg-indigo-50 border border-indigo-200 text-indigo-600 rounded-lg shrink-0">
               <User className="w-4 h-4" />
             </div>
             <div className="ml-3 min-w-0">
-              <p className="text-sm font-semibold text-slate-200 truncate" title={user?.name || user?.username}>
+              <p className="text-sm font-semibold text-slate-800 truncate" title={user?.name || user?.username}>
                 {user?.name || user?.username || 'Admin'}
               </p>
               <p className="text-[10px] text-slate-500 truncate">
@@ -73,10 +73,10 @@ const Sidebar = ({ onClose }) => {
           </div>
           <button
             onClick={logout}
-            className="p-1.5 text-slate-400 hover:text-red-400 hover:bg-slate-800 rounded-md transition-colors shrink-0"
+            className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors shrink-0"
             title="Logout"
           >
-            <LogOut className="w-5 h-5" />
+            <LogOut className="w-4 h-4" />
           </button>
         </div>
       </div>

@@ -8,53 +8,296 @@
   box-sizing: border-box;
 }
 
+/* ==========================================================================
+   PERMANENT CALM & ATTRACTIVE LIGHT UI THEME
+   Eye-friendly soft slate canvas, crisp white cards, rich slate typography,
+   and soothing pastel indicators.
+   ========================================================================== */
+
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background-color: #020617;
-  color: #f8fafc;
+  background-color: #f8fafc;
+  color: #0f172a;
 }
 
+/* Calm Light Scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0f172a;
+  background: #f1f5f9;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #334155;
+  background: #cbd5e1;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background: #94a3b8;
 }
 
-@layer components {
-  .card {
-    @apply bg-slate-900 border border-slate-800 rounded-lg p-5;
-  }
-  .btn-primary {
-    @apply bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-150;
-  }
-  .btn-secondary {
-    @apply bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-150;
-  }
-  .btn-danger {
-    @apply bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-150;
-  }
-  .btn-success {
-    @apply bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-150;
-  }
-  .input-field {
-    @apply bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 w-full;
-  }
-  .table-header {
-    @apply text-left text-xs font-semibold text-slate-400 uppercase tracking-wider px-4 py-3;
-  }
-  .table-cell {
-    @apply px-4 py-3 text-sm text-slate-300;
-  }
+/* ==========================================================================
+   CANVAS, CARDS & CONTAINERS (LIGHT MODE BY DEFAULT)
+   ========================================================================== */
+
+/* Page Background */
+.bg-slate-950 {
+  background-color: #f8fafc !important;
+}
+
+/* Card & Modal Surfaces */
+.bg-slate-900 {
+  background-color: #ffffff !important;
+}
+
+/* Soft Container Panels & Sub-sections */
+.bg-slate-850,
+.bg-slate-800 {
+  background-color: #f1f5f9 !important;
+}
+
+.bg-slate-800\/50,
+.bg-slate-800\/60,
+.bg-slate-900\/80,
+.bg-slate-900\/60,
+.bg-slate-900\/50,
+.bg-slate-900\/40 {
+  background-color: #f8fafc !important;
+}
+
+.bg-slate-700 {
+  background-color: #e2e8f0 !important;
+}
+
+/* Clean Light Borders */
+.border-slate-800,
+.border-slate-850,
+.border-slate-700,
+.border-slate-900 {
+  border-color: #e2e8f0 !important;
+}
+
+.divide-slate-800 > :not([hidden]) ~ :not([hidden]),
+.divide-slate-850 > :not([hidden]) ~ :not([hidden]),
+.divide-slate-900 > :not([hidden]) ~ :not([hidden]) {
+  border-color: #f1f5f9 !important;
+}
+
+/* ==========================================================================
+   TYPOGRAPHY IN CALM LIGHT (HIGH LEGIBILITY & CONTRAST)
+   ========================================================================== */
+
+.text-white,
+.text-slate-100 {
+  color: #0f172a !important;
+}
+
+.text-slate-200,
+.text-slate-300 {
+  color: #334155 !important;
+}
+
+.text-slate-400 {
+  color: #64748b !important;
+}
+
+.text-slate-500 {
+  color: #94a3b8 !important;
+}
+
+/* Deep readable accent colors on white cards */
+.text-indigo-400, .text-indigo-500 {
+  color: #4f46e5 !important;
+}
+.text-emerald-400, .text-emerald-500 {
+  color: #059669 !important;
+}
+.text-amber-400, .text-amber-500 {
+  color: #d97706 !important;
+}
+.text-sky-400, .text-sky-500 {
+  color: #0284c7 !important;
+}
+.text-blue-400, .text-blue-500 {
+  color: #2563eb !important;
+}
+.text-rose-400, .text-rose-500 {
+  color: #e11d48 !important;
+}
+.text-purple-400, .text-purple-500 {
+  color: #7c3aed !important;
+}
+
+/* ==========================================================================
+   BUTTONS (PRIMARY & SECONDARY)
+   ========================================================================== */
+
+/* Primary action buttons keep pure white text */
+.btn-primary, .btn-primary *,
+.btn-success, .btn-success *,
+.btn-danger, .btn-danger *,
+button.bg-indigo-600, button.bg-indigo-600 *,
+a.bg-indigo-600, a.bg-indigo-600 *,
+button.bg-emerald-600, button.bg-emerald-600 *,
+a.bg-emerald-600, a.bg-emerald-600 *,
+button.bg-blue-600, button.bg-blue-600 *,
+a.bg-blue-600, a.bg-blue-600 *,
+button.bg-red-600, button.bg-red-600 *,
+a.bg-red-600, a.bg-red-600 *,
+.bg-indigo-600 text-white,
+.bg-emerald-600 text-white,
+.bg-blue-600 text-white,
+.bg-red-600 text-white {
+  color: #ffffff !important;
+}
+
+/* Secondary Buttons */
+.btn-secondary,
+button.bg-slate-800,
+a.bg-slate-800 {
+  background-color: #f1f5f9 !important;
+  color: #1e293b !important;
+  border: 1px solid #cbd5e1 !important;
+}
+
+.btn-secondary:hover,
+button.bg-slate-800:hover,
+a.bg-slate-800:hover {
+  background-color: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+
+/* ==========================================================================
+   CARDS & ELEVATIONS
+   ========================================================================== */
+
+.card {
+  background-color: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 0.75rem !important;
+  padding: 1.25rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.03);
+}
+
+.bg-slate-900.border {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.03);
+}
+
+/* ==========================================================================
+   FORM INPUTS & SELECTS
+   ========================================================================== */
+
+.input-field,
+input[type="text"],
+input[type="number"],
+input[type="password"],
+input[type="email"],
+select,
+textarea {
+  background-color: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+select option {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+/* ==========================================================================
+   TABLES (CALM LIGHT)
+   ========================================================================== */
+
+thead {
+  background-color: #f8fafc !important;
+}
+
+thead th,
+.table-header {
+  color: #475569 !important;
+  background-color: #f8fafc !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+
+tbody tr {
+  background-color: #ffffff;
+}
+
+tbody tr:hover,
+tbody tr.hover\:bg-slate-900\/40:hover,
+tbody tr.hover\:bg-slate-800\/50:hover {
+  background-color: #f8fafc !important;
+}
+
+.table-cell {
+  color: #334155 !important;
+}
+
+/* ==========================================================================
+   PASTEL BADGES & CHIP ACCENTS
+   ========================================================================== */
+
+.bg-indigo-500\/10,
+.bg-indigo-600\/20 {
+  background-color: #eef2ff !important;
+  border-color: #c7d2fe !important;
+  color: #4338ca !important;
+}
+
+.bg-emerald-500\/10,
+.bg-emerald-600\/20 {
+  background-color: #ecfdf5 !important;
+  border-color: #a7f3d0 !important;
+  color: #047857 !important;
+}
+
+.bg-amber-500\/10,
+.bg-amber-600\/20 {
+  background-color: #fffbeb !important;
+  border-color: #fde68a !important;
+  color: #b45309 !important;
+}
+
+.bg-sky-500\/10,
+.bg-blue-500\/10,
+.bg-blue-600\/20 {
+  background-color: #eff6ff !important;
+  border-color: #bfdbfe !important;
+  color: #1d4ed8 !important;
+}
+
+.bg-rose-500\/10,
+.bg-rose-600\/20,
+.bg-red-500\/10 {
+  background-color: #fff1f2 !important;
+  border-color: #fecdd3 !important;
+  color: #be123c !important;
+}
+
+.bg-purple-500\/10,
+.bg-purple-600\/20 {
+  background-color: #faf5ff !important;
+  border-color: #e9d5ff !important;
+  color: #7e22ce !important;
+}
+
+/* Banner Gradients */
+.from-indigo-950\/40 {
+  --tw-gradient-from: #eef2ff !important;
+}
+
+.via-slate-900 {
+  --tw-gradient-stops: var(--tw-gradient-from), #ffffff, var(--tw-gradient-to) !important;
+}
+
+.to-slate-900 {
+  --tw-gradient-to: #f8fafc !important;
 }

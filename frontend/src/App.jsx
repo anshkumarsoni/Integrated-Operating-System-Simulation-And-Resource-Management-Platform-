@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
 import { SimulationProvider } from './context/SimulationContext';
 import { useToast } from './hooks/useToast';
@@ -59,11 +60,13 @@ const AppContent = () => {
 const App = () => {
   return (
     <BrowserRouter>
-      <AuthProvider>
-        <SimulationProvider>
-          <AppContent />
-        </SimulationProvider>
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <SimulationProvider>
+            <AppContent />
+          </SimulationProvider>
+        </AuthProvider>
+      </ThemeProvider>
     </BrowserRouter>
   );
 };

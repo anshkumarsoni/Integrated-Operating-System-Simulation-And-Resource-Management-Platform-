@@ -8,25 +8,25 @@ const Navbar = ({ onMenuClick, title = 'Dashboard Overview' }) => {
   const { resetAll, refreshAll } = useSimulation();
 
   return (
-    <header className="h-16 flex items-center justify-between px-4 lg:px-8 bg-slate-900 border-b border-slate-800 shrink-0 select-none">
+    <header className="h-16 flex items-center justify-between px-4 lg:px-8 bg-white border-b border-slate-200 shrink-0 select-none shadow-sm">
       <div className="flex items-center space-x-3">
         <button
           onClick={onMenuClick}
-          className="lg:hidden p-2 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition-colors"
+          className="lg:hidden p-2 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors"
           title="Toggle Navigation Menu"
         >
           <Menu className="w-5 h-5" />
         </button>
         <div>
-          <h1 className="text-lg lg:text-xl font-bold text-white tracking-tight">{title}</h1>
+          <h1 className="text-lg lg:text-xl font-bold text-slate-800 tracking-tight">{title}</h1>
         </div>
       </div>
 
       <div className="flex items-center space-x-3 lg:space-x-4">
         {/* Live Simulation Status */}
-        <div className="hidden sm:flex items-center space-x-2 bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800">
+        <div className="hidden sm:flex items-center space-x-2 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200">
           <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
-          <span className="text-xs font-semibold uppercase tracking-wider text-emerald-400">Simulation Online</span>
+          <span className="text-xs font-semibold uppercase tracking-wider text-emerald-700">Simulation Online</span>
         </div>
 
         {/* Quick Refresh / Reseed */}
@@ -34,25 +34,25 @@ const Navbar = ({ onMenuClick, title = 'Dashboard Overview' }) => {
           onClick={() => {
             refreshAll();
           }}
-          className="p-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800 rounded-lg transition-colors border border-slate-800 hover:border-slate-700"
+          className="p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200 hover:border-slate-300"
           title="Refresh All Modules"
         >
           <RefreshCw className="w-4 h-4" />
         </button>
 
-        <div className="h-5 w-px bg-slate-800 hidden sm:block"></div>
+        <div className="h-5 w-px bg-slate-200 hidden sm:block"></div>
 
         {/* User Profile & Logout */}
         <div className="flex items-center space-x-3">
           <div className="flex items-center space-x-2.5">
-            <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-indigo-600/20 border border-indigo-500/30 text-indigo-400 font-bold text-xs">
-              <ShieldCheck className="w-4 h-4 text-indigo-400" />
+            <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-indigo-50 border border-indigo-200 text-indigo-600 font-bold text-xs">
+              <ShieldCheck className="w-4 h-4 text-indigo-600" />
             </div>
             <div className="hidden md:block text-left">
-              <span className="text-xs font-semibold text-slate-200 block leading-tight max-w-[150px] truncate" title={user?.name || user?.username}>
+              <span className="text-xs font-semibold text-slate-800 block leading-tight max-w-[150px] truncate" title={user?.name || user?.username}>
                 {user?.name || user?.username || 'Admin'}
               </span>
-              <span className="text-[10px] text-indigo-400/90 font-medium tracking-wide">
+              <span className="text-[10px] text-indigo-600 font-medium tracking-wide">
                 {user?.role || 'Administrator'}
               </span>
             </div>
@@ -60,7 +60,7 @@ const Navbar = ({ onMenuClick, title = 'Dashboard Overview' }) => {
 
           <button
             onClick={logout}
-            className="p-1.5 text-slate-400 hover:text-red-400 hover:bg-slate-800 rounded-lg transition-colors"
+            className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"
             title="Logout"
           >
             <LogOut className="w-4 h-4" />

@@ -1,18 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   ListChecks, Play, Clock, Pause, XCircle,
   Cpu, MemoryStick, Package, HardDrive, 
   Lock, FolderTree, Terminal, AlertTriangle, 
-  Activity, ArrowUpRight, Zap, CheckCircle2
+  Activity, ArrowUpRight, Zap, CheckCircle2, FileText
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useSimulation } from '../hooks/useSimulation';
 import StatCard from '../components/StatCard';
 import StatusBadge from '../components/StatusBadge';
+import ProcessReportModal from '../components/ProcessReportModal';
 import { formatTimestamp } from '../utils/helpers';
 
 export default function Dashboard() {
-  const { dashboardStats, processes, executionHistory } = useSimulation();
+  const { dashboardStats, processes, executionHistory, osService } = useSimulation();
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const stats = dashboardStats;
 
   return (
@@ -30,6 +32,14 @@ export default function Dashboard() {
           </p>
         </div>
         <div className="flex items-center gap-3">
+          <button
+            onClick={() => setIsReportModalOpen(true)}
+            className="inline-flex items-center px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-bold rounded-xl transition-all shadow-md shadow-emerald-600/30"
+            title="Generate and export comprehensive process audit report"
+          >
+            <FileText className="w-4 h-4 mr-2" />
+            Process Report
+          </button>
           <Link
             to="/integrated-simulation"
             className="inline-flex items-center px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-bold rounded-xl transition-all shadow-md shadow-indigo-600/30"
@@ -220,6 +230,14 @@ export default function Dashboard() {
           </table>
         </div>
       </div>
+
+      {/* Comprehensive Process Audit Report Modal */}
+      <ProcessReportModal
+        isOpen={isReportModalOpen}
+        onClose={() => setIsReportModalOpen(false)}
+        processes={processes}
+        osService={osService}
+      />
     </div>
   );
 }

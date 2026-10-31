@@ -33,10 +33,10 @@ const DashboardLayout = () => {
   const currentTitle = PATH_TITLES[location.pathname] || 'OS Simulation Platform';
 
   return (
-    <div className="flex h-screen bg-slate-950 text-slate-200 overflow-hidden font-sans">
+    <div className="flex h-screen bg-slate-50 text-slate-800 overflow-hidden font-sans">
       {/* Mobile backdrop */}
       <div 
-        className={`fixed inset-0 z-20 transition-opacity bg-black/60 lg:hidden backdrop-blur-sm ${sidebarOpen ? 'block' : 'hidden'}`} 
+        className={`fixed inset-0 z-20 transition-opacity bg-black/40 lg:hidden backdrop-blur-sm ${sidebarOpen ? 'block' : 'hidden'}`} 
         onClick={() => setSidebarOpen(false)}
       />
       
@@ -48,7 +48,7 @@ const DashboardLayout = () => {
       {/* Main content body */}
       <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
         <Navbar onMenuClick={() => setSidebarOpen(true)} title={currentTitle} />
-        <main className="flex-1 overflow-y-auto p-4 lg:p-8 bg-slate-950">
+        <main className="flex-1 overflow-y-auto p-4 lg:p-8 bg-slate-50">
           <Outlet />
         </main>
       </div>

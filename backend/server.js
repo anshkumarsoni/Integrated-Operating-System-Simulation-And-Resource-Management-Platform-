@@ -200,6 +200,43 @@ app.get('/api/db/views/:viewName', async (req, res) => {
   }
 });
 
+// ----------------------------------------------------
+// 4. Process Audit & Execution Report Endpoint
+// ----------------------------------------------------
+app.get('/api/reports/processes', async (req, res) => {
+  try {
+    const result = await executeSQL(`
+      SELECT 
+        p.pid, p.name, p.state, p.arrival_time, p.burst_time, p.priority,
+        p.memory_required, p.cpu_time_used, p.io_required, p.resource_required,
+        pcb.program_counter, pcb.cpu_registers, pcb.memory_allocation
+      FROM processes p
+      LEFT JOIN pcb ON p.pid = pcb.pid
+      ORDER BY p.priority ASC, p.arrival_time ASC;
+    `);
+    
+    const rows = result.rows || [];
+    const summary = {
+      total: rows.length,
+      running: rows.filter(r => r.state === 'RUNNING').length,
+      ready: rows.filter(r => r.state === 'READY').length,
+      waiting: rows.filter(r => r.state === 'WAITING').length,
+      terminated: rows.filter(r => r.state === 'TERMINATED').length,
+      totalBurst: rows.reduce((s, r) => s + (r.burst_time || 0), 0),
+      totalMemory: rows.reduce((s, r) => s + (r.memory_required || 0), 0)
+    };
+
+    res.json({
+      success: true,
+      timestamp: new Date().toISOString(),
+      summary,
+      processes: rows
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`=======================================================`);
   console.log(`🚀 OS Simulation Platform MySQL Bridge`);

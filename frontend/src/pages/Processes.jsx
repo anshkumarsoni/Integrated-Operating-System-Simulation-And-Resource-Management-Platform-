@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Eye, Trash2, Plus, RefreshCw, Layers, Shield, Cpu, Activity } from 'lucide-react';
+import { Eye, Trash2, Plus, RefreshCw, Layers, Shield, Cpu, Activity, FileText } from 'lucide-react';
 import { useSimulation } from '../hooks/useSimulation';
 import StatusBadge from '../components/StatusBadge';
 import Modal from '../components/Modal';
 import PCBModal from '../components/PCBModal';
+import ProcessReportModal from '../components/ProcessReportModal';
 
 export default function Processes() {
   const { 
@@ -18,6 +19,7 @@ export default function Processes() {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [selectedPcb, setSelectedPcb] = useState(null);
   const [isPcbModalOpen, setIsPcbModalOpen] = useState(false);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [notification, setNotification] = useState('');
 
   const [formData, setFormData] = useState({
@@ -92,6 +94,14 @@ export default function Processes() {
             title="Refresh process list"
           >
             <RefreshCw className="w-4 h-4" />
+          </button>
+          <button 
+            onClick={() => setIsReportModalOpen(true)}
+            className="flex items-center px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl transition-all shadow-md shadow-emerald-600/30 text-sm"
+            title="Generate comprehensive process details audit report"
+          >
+            <FileText className="w-4 h-4 mr-1.5" />
+            Generate Report
           </button>
           <button 
             onClick={() => setIsCreateModalOpen(true)}
@@ -340,6 +350,14 @@ export default function Processes() {
         isOpen={isPcbModalOpen} 
         onClose={() => setIsPcbModalOpen(false)} 
         pcb={selectedPcb} 
+      />
+
+      {/* Comprehensive Process Audit Report Modal */}
+      <ProcessReportModal
+        isOpen={isReportModalOpen}
+        onClose={() => setIsReportModalOpen(false)}
+        processes={processes}
+        osService={osService}
       />
     </div>
   );
