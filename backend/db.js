@@ -69,7 +69,6 @@ export async function setConnection(config = {}) {
     multipleStatements: true
   };
 
-  // Close existing pool if any
   if (activePool) {
     try { await activePool.end(); } catch (_) {}
     activePool = null;
