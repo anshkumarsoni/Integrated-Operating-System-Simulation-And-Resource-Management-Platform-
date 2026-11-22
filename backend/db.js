@@ -74,7 +74,7 @@ export async function setConnection(config = {}) {
     activePool = null;
   }
 
-  // First verify credentials against MySQL
+
   const testRes = await testConnection(merged);
   if (!testRes.success) {
     throw new Error(testRes.error || 'Failed to authenticate with MySQL server');
