@@ -59,7 +59,7 @@ export async function testConnection(config = {}) {
   }
 }
 
-// Connect and set as the active application pool
+
 export async function setConnection(config = {}) {
   const merged = {
     ...currentConfig,
