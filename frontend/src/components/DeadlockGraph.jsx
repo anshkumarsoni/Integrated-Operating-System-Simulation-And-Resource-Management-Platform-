@@ -33,7 +33,7 @@ const DeadlockGraph = ({ data }) => {
       svg.removeChild(svg.firstChild);
     }
 
-    // Add marker for arrows
+
     const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
 
     // Allocation arrow
