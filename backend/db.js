@@ -27,7 +27,7 @@ export const getActiveConfig = () => ({
   hasPassword: Boolean(currentConfig.password)
 });
 
-// Test raw credentials without switching the active pool
+
 export async function testConnection(config = {}) {
   const merged = { ...currentConfig, ...config };
   let connection = null;
