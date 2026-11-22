@@ -6,7 +6,7 @@ const DeadlockGraph = ({ data }) => {
   useEffect(() => {
     if (!data || !data.nodes || !data.edges || !svgRef.current) return;
 
-    // A very basic manual layout for nodes since we don't have a library like d3 installed
+
     const svg = svgRef.current;
     const width = svg.clientWidth || 600;
     const height = svg.clientHeight || 400;
@@ -29,14 +29,13 @@ const DeadlockGraph = ({ data }) => {
 
     const positionedNodes = [...processNodes, ...resourceNodes];
 
-    // Clear previous SVG content
     while (svg.firstChild) {
       svg.removeChild(svg.firstChild);
     }
 
     // Add marker for arrows
     const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
-    
+
     // Allocation arrow
     const markerAlloc = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
     markerAlloc.setAttribute('id', 'arrow-alloc');
@@ -50,7 +49,7 @@ const DeadlockGraph = ({ data }) => {
     pathAlloc.setAttribute('d', 'M0,-5L10,0L0,5');
     pathAlloc.setAttribute('fill', '#3b82f6'); // blue-500
     markerAlloc.appendChild(pathAlloc);
-    
+
     // Request arrow
     const markerReq = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
     markerReq.setAttribute('id', 'arrow-req');
@@ -80,7 +79,7 @@ const DeadlockGraph = ({ data }) => {
         line.setAttribute('y1', source.y);
         line.setAttribute('x2', target.x);
         line.setAttribute('y2', target.y);
-        
+
         if (edge.type === 'allocation') {
           line.setAttribute('stroke', '#3b82f6'); // blue-500
           line.setAttribute('stroke-width', '2');
@@ -91,11 +90,11 @@ const DeadlockGraph = ({ data }) => {
           line.setAttribute('stroke-dasharray', '5,5');
           line.setAttribute('marker-end', 'url(#arrow-req)');
         }
-        
+
         if (edge.isCycle) {
           line.setAttribute('stroke', '#ef4444'); // red-500
         }
-        
+
         svg.appendChild(line);
       }
     });
