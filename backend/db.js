@@ -113,7 +113,6 @@ export async function initDatabaseAndSchema(config = {}) {
     const schemaPath = path.join(__dirname, 'schema.sql');
     let schemaSQL = fs.readFileSync(schemaPath, 'utf8');
 
-    // Execute the schema script
     await conn.query(schemaSQL);
 
     // Switch active pool to the database
