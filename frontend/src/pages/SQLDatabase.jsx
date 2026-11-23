@@ -198,7 +198,7 @@ export default function SQLDatabase() {
   const [error, setError] = useState('');
   const [selectedTable, setSelectedTable] = useState(MYSQL_TABLE_DEFINITIONS[0]);
 
-  // Local PC MySQL Connection States
+
   const [connectionStatus, setConnectionStatus] = useState({
     connected: false,
     checking: true,
