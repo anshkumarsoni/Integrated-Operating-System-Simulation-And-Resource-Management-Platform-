@@ -28,7 +28,7 @@ export class MemoryManager {
     const freeMemory = this.totalMemory - totalAllocatedBlockSize;
     const internalFrag = this.blocks.reduce((sum, b) => sum + (b.internalFrag || 0), 0);
 
-    // External fragmentation is total free memory across all free blocks
+
     const freeBlocks = this.blocks.filter(b => b.status === 'Free');
     const externalFrag = freeBlocks.length > 1 ? freeBlocks.reduce((sum, b) => sum + b.size, 0) : 0;
 
