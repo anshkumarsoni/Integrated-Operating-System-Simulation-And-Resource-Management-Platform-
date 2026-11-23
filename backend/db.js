@@ -80,7 +80,7 @@ export async function setConnection(config = {}) {
     throw new Error(testRes.error || 'Failed to authenticate with MySQL server');
   }
 
-  // Create new pool
+
   activePool = mysql.createPool({
     host: merged.host,
     port: merged.port,
@@ -113,6 +113,7 @@ export async function initDatabaseAndSchema(config = {}) {
     const schemaPath = path.join(__dirname, 'schema.sql');
     let schemaSQL = fs.readFileSync(schemaPath, 'utf8');
 
+    // Execute the schema script
     await conn.query(schemaSQL);
 
     // Switch active pool to the database
