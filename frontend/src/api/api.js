@@ -40,7 +40,8 @@ export const processes = {
   getProcess: async (pid) => osService.getProcess(pid),
   getProcessPCB: async (pid) => osService.getProcessPCB(pid),
   updateProcessState: async (pid, state) => osService.updateProcessState(pid, state),
-  terminateProcess: async (pid) => osService.terminateProcess(pid)
+  terminateProcess: async (pid) => osService.terminateProcess(pid),
+  deleteProcess: async (pid) => osService.deleteProcess(pid)
 };
 
 // CPU Scheduling

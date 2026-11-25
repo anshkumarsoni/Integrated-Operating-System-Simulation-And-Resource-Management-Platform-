@@ -851,12 +851,12 @@ export default function SQLDatabase() {
 
           {/* Right Col: Quick Sample OS Queries */}
           <div className="space-y-4">
-            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-sm space-y-3">
+            <div className="bg-blue-50/40 border border-blue-200 rounded-2xl p-5 shadow-xs space-y-3">
               <div className="flex items-center space-x-2">
-                <Sparkles className="w-4 h-4 text-amber-400" />
-                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-200">Preset MySQL Queries</h3>
+                <Sparkles className="w-4 h-4 text-blue-600" />
+                <h3 className="text-xs font-bold uppercase tracking-wider text-blue-950">Preset MySQL Queries</h3>
               </div>
-              <p className="text-xs text-slate-400 leading-relaxed">
+              <p className="text-xs text-blue-700 leading-relaxed">
                 Click any preset below to load and run sample queries:
               </p>
 
@@ -868,15 +868,15 @@ export default function SQLDatabase() {
                       setSqlQuery(sq.sql);
                       handleExecuteQuery(sq.sql);
                     }}
-                    className="w-full text-left p-2.5 rounded-xl bg-slate-950/80 hover:bg-slate-800/80 border border-slate-800 hover:border-indigo-500/50 transition-all group"
+                    className="w-full text-left p-3 rounded-xl bg-blue-50 hover:bg-blue-100/90 border border-blue-200 hover:border-blue-300 transition-all group shadow-xs"
                   >
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-semibold text-slate-200 group-hover:text-indigo-300 transition-colors">
+                      <span className="text-xs font-semibold text-blue-950 group-hover:text-blue-700 transition-colors">
                         {sq.title}
                       </span>
-                      <ChevronRight className="w-3.5 h-3.5 text-slate-600 group-hover:text-indigo-400 transition-colors" />
+                      <ChevronRight className="w-3.5 h-3.5 text-blue-400 group-hover:text-blue-600 transition-colors" />
                     </div>
-                    <p className="text-[11px] text-slate-500 mt-0.5">{sq.desc}</p>
+                    <p className="text-[11px] text-blue-700/80 mt-0.5">{sq.desc}</p>
                   </button>
                 ))}
               </div>
@@ -919,9 +919,9 @@ export default function SQLDatabase() {
       {activeTab === 'tables' && (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Table List */}
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-200 flex items-center">
-              <TableIcon className="w-4 h-4 mr-2 text-indigo-400" /> MySQL Relational Tables
+          <div className="bg-white/90 border border-blue-200 rounded-2xl p-5 space-y-3 shadow-xs">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-blue-950 flex items-center">
+              <TableIcon className="w-4 h-4 mr-2 text-blue-600" /> MySQL Relational Tables
             </h2>
 
             <div className="space-y-1.5 pt-2">
@@ -931,15 +931,19 @@ export default function SQLDatabase() {
                   onClick={() => handleSelectTable(t)}
                   className={`w-full flex items-center justify-between p-3 rounded-xl text-xs font-mono transition-all border ${
                     selectedTable?.tableName === t.tableName
-                      ? 'bg-indigo-600/20 border-indigo-500 text-indigo-300 font-bold'
-                      : 'bg-slate-950/60 border-slate-800 text-slate-300 hover:bg-slate-800/50'
+                      ? 'bg-blue-600 border-blue-600 text-white font-bold shadow-xs'
+                      : 'bg-blue-50/70 border-blue-200 text-blue-950 hover:bg-blue-100 hover:border-blue-300'
                   }`}
                 >
                   <span className="flex items-center">
-                    <Database className="w-3.5 h-3.5 mr-2 text-slate-500" />
+                    <Database className={`w-3.5 h-3.5 mr-2 ${selectedTable?.tableName === t.tableName ? 'text-white' : 'text-blue-600'}`} />
                     {t.tableName}
                   </span>
-                  <span className="px-2 py-0.5 bg-slate-900 rounded-md text-[10px] text-slate-400 border border-slate-800 font-sans">
+                  <span className={`px-2 py-0.5 rounded-md text-[10px] font-sans border ${
+                    selectedTable?.tableName === t.tableName
+                      ? 'bg-blue-700 text-white border-blue-500'
+                      : 'bg-white text-blue-700 border-blue-200'
+                  }`}>
                     {t.engine}
                   </span>
                 </button>
@@ -949,17 +953,17 @@ export default function SQLDatabase() {
 
           {/* Table Details */}
           {selectedTable && (
-            <div className="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div className="lg:col-span-2 bg-white/90 border border-blue-200 rounded-2xl p-5 space-y-4 shadow-xs">
+              <div className="flex items-center justify-between border-b border-blue-100 pb-3">
                 <div>
-                  <h3 className="text-sm font-bold text-white font-mono flex items-center">
-                    <TableIcon className="w-4 h-4 mr-2 text-indigo-400" />
-                    Table: <span className="text-indigo-300 ml-1.5">{selectedTable.tableName}</span>
-                    <span className="ml-2.5 text-[10px] px-2 py-0.5 rounded bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 font-sans">
+                  <h3 className="text-sm font-bold text-blue-950 font-mono flex items-center">
+                    <TableIcon className="w-4 h-4 mr-2 text-blue-600" />
+                    Table: <span className="text-blue-700 ml-1.5">{selectedTable.tableName}</span>
+                    <span className="ml-2.5 text-[10px] px-2 py-0.5 rounded bg-blue-100 border border-blue-200 text-blue-700 font-sans">
                       ENGINE={selectedTable.engine}
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-400 mt-0.5">
+                  <p className="text-xs text-blue-600 mt-0.5">
                     {selectedTable.desc}
                   </p>
                 </div>
@@ -970,16 +974,16 @@ export default function SQLDatabase() {
                     setActiveTab('console');
                     handleExecuteQuery(q);
                   }}
-                  className="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 text-white transition-all shadow-sm"
+                  className="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-600 hover:bg-blue-700 text-white transition-all shadow-xs"
                 >
                   <Terminal className="w-3.5 h-3.5 mr-1.5" /> View Live Data
                 </button>
               </div>
 
               {/* Column Schema Table */}
-              <div className="overflow-x-auto rounded-xl border border-slate-800">
+              <div className="overflow-x-auto rounded-xl border border-blue-200">
                 <table className="w-full text-left text-xs border-collapse font-mono">
-                  <thead className="bg-slate-950 text-slate-400 font-semibold border-b border-slate-800">
+                  <thead className="bg-blue-50 text-blue-900 font-semibold border-b border-blue-200">
                     <tr>
                       <th className="p-3">Column Name</th>
                       <th className="p-3">MySQL Data Type</th>
@@ -987,21 +991,21 @@ export default function SQLDatabase() {
                       <th className="p-3">Description</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-800/60 bg-slate-900/40">
+                  <tbody className="divide-y divide-blue-100 bg-white">
                     {selectedTable.columns?.map((col) => (
-                      <tr key={col.name} className="hover:bg-slate-800/30">
-                        <td className="p-3 text-slate-200 font-semibold">{col.name}</td>
-                        <td className="p-3 text-indigo-300">{col.type}</td>
+                      <tr key={col.name} className="hover:bg-blue-50/50">
+                        <td className="p-3 text-slate-800 font-semibold">{col.name}</td>
+                        <td className="p-3 text-blue-700">{col.type}</td>
                         <td className="p-3">
                           {col.pk ? (
-                            <span className="px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/20 text-amber-300 text-[10px] font-bold">
+                            <span className="px-2 py-0.5 rounded bg-amber-50 border border-amber-200 text-amber-700 text-[10px] font-bold">
                               PRIMARY KEY
                             </span>
                           ) : (
-                            <span className="text-slate-500 text-[11px]">-</span>
+                            <span className="text-slate-400 text-[11px]">-</span>
                           )}
                         </td>
-                        <td className="p-3 text-slate-400 text-[11px] font-sans">{col.desc}</td>
+                        <td className="p-3 text-slate-600 text-[11px] font-sans">{col.desc}</td>
                       </tr>
                     ))}
                   </tbody>

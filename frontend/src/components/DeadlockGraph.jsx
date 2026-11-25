@@ -141,18 +141,18 @@ const DeadlockGraph = ({ data }) => {
 
   if (!data || !data.nodes || data.nodes.length === 0) {
     return (
-      <div className="flex items-center justify-center h-64 bg-slate-900 border border-slate-800 rounded-xl">
-        <span className="text-slate-500">No RAG data available</span>
+      <div className="flex items-center justify-center h-64 bg-blue-50/40 border border-blue-200 rounded-xl">
+        <span className="text-blue-600 text-xs font-medium">No RAG data available</span>
       </div>
     );
   }
 
   return (
-    <div className="w-full h-80 bg-slate-900 border border-slate-800 rounded-xl overflow-hidden relative">
-      <div className="absolute top-4 left-4 flex flex-col space-y-2 bg-slate-800/80 p-2 rounded text-xs">
-        <div className="flex items-center"><div className="w-3 h-3 rounded-full border border-blue-500 mr-2"></div> Process</div>
-        <div className="flex items-center"><div className="w-3 h-3 rounded border border-emerald-500 mr-2"></div> Resource</div>
-        <div className="flex items-center"><div className="w-4 h-0.5 bg-blue-500 mr-2"></div> Allocation</div>
+    <div className="w-full h-80 bg-blue-50/20 border border-blue-200 rounded-xl overflow-hidden relative">
+      <div className="absolute top-4 left-4 flex flex-col space-y-2 bg-blue-50/90 backdrop-blur-xs border border-blue-200 p-2.5 rounded-lg text-xs text-blue-950 font-medium shadow-xs">
+        <div className="flex items-center"><div className="w-3 h-3 rounded-full bg-blue-600 border border-blue-400 mr-2"></div> Process</div>
+        <div className="flex items-center"><div className="w-3 h-3 rounded bg-emerald-600 border border-emerald-400 mr-2"></div> Resource</div>
+        <div className="flex items-center"><div className="w-4 h-0.5 bg-blue-600 mr-2"></div> Allocation</div>
         <div className="flex items-center"><div className="w-4 h-0.5 border-t border-dashed border-amber-500 mr-2"></div> Request</div>
       </div>
       <svg ref={svgRef} className="w-full h-full" />

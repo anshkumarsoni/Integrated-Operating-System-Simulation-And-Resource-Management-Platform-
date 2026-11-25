@@ -30,8 +30,8 @@ const Sidebar = ({ onClose }) => {
   const { user, logout } = useContext(AuthContext);
 
   return (
-    <div className="flex flex-col h-full bg-white border-r border-slate-200 shadow-sm">
-      <div className="flex items-center h-16 px-4 border-b border-slate-100">
+    <div className="flex flex-col h-full bg-white border-r border-blue-100 shadow-sm">
+      <div className="flex items-center h-16 px-4 border-b border-blue-50">
         <Monitor className="w-6 h-6 text-indigo-600 mr-2" />
         <span className="text-lg font-bold text-slate-800 tracking-tight">OS Sim Platform</span>
       </div>
@@ -45,8 +45,8 @@ const Sidebar = ({ onClose }) => {
             className={({ isActive }) =>
               `flex items-center px-3 py-2 rounded-xl text-sm font-medium transition-all ${
                 isActive
-                  ? 'bg-indigo-50 text-indigo-700 font-semibold border-l-4 border-indigo-600 shadow-xs'
-                  : 'text-slate-600 hover:bg-slate-100/70 hover:text-slate-900'
+                  ? 'bg-blue-50 text-blue-700 font-semibold border-l-4 border-blue-600 shadow-xs'
+                  : 'text-slate-600 hover:bg-blue-50/50 hover:text-blue-900'
               }`
             }
           >
@@ -56,7 +56,7 @@ const Sidebar = ({ onClose }) => {
         ))}
       </nav>
 
-      <div className="p-4 border-t border-slate-100 bg-slate-50/60">
+      <div className="p-4 border-t border-blue-100 bg-blue-50/60">
         <div className="flex items-center justify-between">
           <div className="flex items-center min-w-0 pr-2">
             <div className="p-1.5 bg-indigo-50 border border-indigo-200 text-indigo-600 rounded-lg shrink-0">

@@ -9,85 +9,117 @@
 }
 
 /* ==========================================================================
-   PERMANENT CALM & ATTRACTIVE LIGHT UI THEME
-   Eye-friendly soft slate canvas, crisp white cards, rich slate typography,
-   and soothing pastel indicators.
+   PERMANENT CALM BLUE & ATTRACTIVE LIGHT UI THEME
+   Soft sky/blue canvas, crisp white cards with calm blue borders,
+   and elegant blue interactive controls.
    ========================================================================== */
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background-color: #f8fafc;
+  background-color: #f0f7ff;
   color: #0f172a;
 }
 
-/* Calm Light Scrollbars */
+/* Calm Blue Scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #eff6ff;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #93c5fd;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #60a5fa;
 }
 
 /* ==========================================================================
-   CANVAS, CARDS & CONTAINERS (LIGHT MODE BY DEFAULT)
+   CANVAS, CARDS & CONTAINERS (BLUE-THEMED LIGHT MODE)
    ========================================================================== */
 
-/* Page Background */
-.bg-slate-950 {
-  background-color: #f8fafc !important;
+/* Page Background -> Soft Sky Blue Canvas */
+.bg-slate-950,
+.bg-slate-950\/95,
+.bg-slate-950\/90,
+.bg-slate-950\/85,
+.bg-slate-950\/80,
+.bg-slate-950\/75,
+.bg-slate-950\/70,
+.bg-slate-950\/60,
+.bg-slate-950\/50,
+.bg-slate-950\/40,
+.bg-slate-950\/30,
+.bg-slate-950\/20 {
+  background-color: #f0f7ff !important;
 }
 
-/* Card & Modal Surfaces */
-.bg-slate-900 {
+/* Card & Modal Surfaces -> Clean White */
+.bg-slate-900,
+.bg-slate-900\/95,
+.bg-slate-900\/90,
+.bg-slate-900\/80,
+.bg-slate-900\/70,
+.bg-slate-900\/60,
+.bg-slate-900\/50,
+.bg-slate-900\/40,
+.bg-slate-900\/30,
+.bg-slate-900\/20 {
   background-color: #ffffff !important;
 }
 
-/* Soft Container Panels & Sub-sections */
+/* Soft Sub-panels & Inner Containers -> Pastel Light Blue */
 .bg-slate-850,
-.bg-slate-800 {
-  background-color: #f1f5f9 !important;
-}
-
-.bg-slate-800\/50,
+.bg-slate-800,
+.bg-slate-800\/95,
+.bg-slate-800\/90,
+.bg-slate-800\/80,
+.bg-slate-800\/70,
 .bg-slate-800\/60,
-.bg-slate-900\/80,
-.bg-slate-900\/60,
-.bg-slate-900\/50,
-.bg-slate-900\/40 {
-  background-color: #f8fafc !important;
+.bg-slate-800\/50,
+.bg-slate-800\/40,
+.bg-slate-800\/30 {
+  background-color: #e0effe !important;
 }
 
-.bg-slate-700 {
-  background-color: #e2e8f0 !important;
+.bg-slate-700,
+.bg-slate-700\/90,
+.bg-slate-700\/80,
+.bg-slate-700\/60,
+.bg-slate-700\/50 {
+  background-color: #dbeafe !important;
 }
 
-/* Clean Light Borders */
+.bg-indigo-950,
+.bg-indigo-950\/60,
+.bg-indigo-950\/50,
+.bg-indigo-950\/40,
+.bg-indigo-950\/30,
+.bg-indigo-950\/20 {
+  background-color: #eff6ff !important;
+}
+
+/* Crisp Blue Borders */
 .border-slate-800,
 .border-slate-850,
 .border-slate-700,
 .border-slate-900 {
-  border-color: #e2e8f0 !important;
+  border-color: #bfdbfe !important;
 }
 
 .divide-slate-800 > :not([hidden]) ~ :not([hidden]),
 .divide-slate-850 > :not([hidden]) ~ :not([hidden]),
 .divide-slate-900 > :not([hidden]) ~ :not([hidden]) {
-  border-color: #f1f5f9 !important;
+  border-color: #dbeafe !important;
 }
 
 /* ==========================================================================
-   TYPOGRAPHY IN CALM LIGHT (HIGH LEGIBILITY & CONTRAST)
+   TYPOGRAPHY
    ========================================================================== */
 
 .text-white,
@@ -97,15 +129,15 @@ body {
 
 .text-slate-200,
 .text-slate-300 {
-  color: #334155 !important;
+  color: #1e3a8a !important;
 }
 
 .text-slate-400 {
-  color: #64748b !important;
+  color: #3b82f6 !important;
 }
 
 .text-slate-500 {
-  color: #94a3b8 !important;
+  color: #60a5fa !important;
 }
 
 /* Deep readable accent colors on white cards */
@@ -132,7 +164,7 @@ body {
 }
 
 /* ==========================================================================
-   BUTTONS (PRIMARY & SECONDARY)
+   BUTTONS (PRIMARY & BLUE SECONDARY)
    ========================================================================== */
 
 /* Primary action buttons keep pure white text */
@@ -154,36 +186,38 @@ a.bg-red-600, a.bg-red-600 *,
   color: #ffffff !important;
 }
 
-/* Secondary Buttons */
+/* Secondary Buttons -> Soft Blue Theme */
 .btn-secondary,
 button.bg-slate-800,
 a.bg-slate-800 {
-  background-color: #f1f5f9 !important;
-  color: #1e293b !important;
-  border: 1px solid #cbd5e1 !important;
+  background-color: #eff6ff !important;
+  color: #1d4ed8 !important;
+  border: 1px solid #bfdbfe !important;
 }
 
 .btn-secondary:hover,
 button.bg-slate-800:hover,
 a.bg-slate-800:hover {
-  background-color: #e2e8f0 !important;
-  color: #0f172a !important;
+  background-color: #dbeafe !important;
+  color: #1e40af !important;
+  border-color: #93c5fd !important;
 }
 
 /* ==========================================================================
-   CARDS & ELEVATIONS
+   CARDS & ELEVATIONS (SOFT BLUE TINT)
    ========================================================================== */
 
 .card {
   background-color: #ffffff !important;
-  border: 1px solid #e2e8f0 !important;
+  border: 1px solid #dbeafe !important;
   border-radius: 0.75rem !important;
   padding: 1.25rem;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 2px 8px -1px rgba(37, 99, 235, 0.07);
 }
 
 .bg-slate-900.border {
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.03);
+  border-color: #dbeafe !important;
+  box-shadow: 0 2px 8px -1px rgba(37, 99, 235, 0.07);
 }
 
 /* ==========================================================================
@@ -198,13 +232,21 @@ input[type="email"],
 select,
 textarea {
   background-color: #ffffff !important;
-  border: 1px solid #cbd5e1 !important;
+  border: 1px solid #bfdbfe !important;
   color: #0f172a !important;
+}
+
+.input-field:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #2563eb !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15) !important;
 }
 
 input::placeholder,
 textarea::placeholder {
-  color: #94a3b8 !important;
+  color: #93c5fd !important;
 }
 
 select option {
@@ -213,18 +255,18 @@ select option {
 }
 
 /* ==========================================================================
-   TABLES (CALM LIGHT)
+   TABLES (SOFT BLUE ACCENTS)
    ========================================================================== */
 
 thead {
-  background-color: #f8fafc !important;
+  background-color: #eff6ff !important;
 }
 
 thead th,
 .table-header {
-  color: #475569 !important;
-  background-color: #f8fafc !important;
-  border-bottom: 1px solid #e2e8f0 !important;
+  color: #1e40af !important;
+  background-color: #eff6ff !important;
+  border-bottom: 1px solid #bfdbfe !important;
 }
 
 tbody tr {
@@ -234,11 +276,11 @@ tbody tr {
 tbody tr:hover,
 tbody tr.hover\:bg-slate-900\/40:hover,
 tbody tr.hover\:bg-slate-800\/50:hover {
-  background-color: #f8fafc !important;
+  background-color: #f0f7ff !important;
 }
 
 .table-cell {
-  color: #334155 !important;
+  color: #1e3a8a !important;
 }
 
 /* ==========================================================================
@@ -289,9 +331,9 @@ tbody tr.hover\:bg-slate-800\/50:hover {
   color: #7e22ce !important;
 }
 
-/* Banner Gradients */
+/* Banner Gradients -> Airy Blue */
 .from-indigo-950\/40 {
-  --tw-gradient-from: #eef2ff !important;
+  --tw-gradient-from: #dbeafe !important;
 }
 
 .via-slate-900 {
@@ -299,5 +341,5 @@ tbody tr.hover\:bg-slate-800\/50:hover {
 }
 
 .to-slate-900 {
-  --tw-gradient-to: #f8fafc !important;
+  --tw-gradient-to: #eff6ff !important;
 }

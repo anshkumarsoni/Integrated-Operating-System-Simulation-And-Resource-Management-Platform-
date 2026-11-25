@@ -386,8 +386,8 @@ export default function IntegratedSimulation() {
               </div>
             </div>
 
-            <div className="bg-indigo-950/30 border border-indigo-500/20 p-4 rounded-xl text-xs text-indigo-200/90 leading-relaxed">
-              <strong className="text-indigo-300 block mb-1">Interactive OS Insight:</strong>
+            <div className="bg-blue-50/80 border border-blue-200 p-4 rounded-xl text-xs text-blue-900 leading-relaxed shadow-xs">
+              <strong className="text-blue-950 font-bold block mb-1">Interactive OS Insight:</strong>
               Notice how the process state changes dynamically as the kernel allocates memory, dispatches CPU bursts, handles I/O traps, and checks deadlock safety matrices.
             </div>
           </div>

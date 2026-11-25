@@ -12,6 +12,7 @@ export default function Processes() {
     createProcess, 
     updateProcessState, 
     terminateProcess, 
+    deleteProcess,
     osService, 
     refreshAll 
   } = useSimulation();
@@ -67,12 +68,14 @@ export default function Processes() {
 
   const handleStateChange = async (pid, newState) => {
     await updateProcessState(pid, newState);
+    setNotification(`Process ${pid} state updated to ${newState}`);
+    setTimeout(() => setNotification(''), 3000);
   };
 
-  const handleTerminate = async (pid) => {
-    if (window.confirm(`Terminate process ${pid}? This will deallocate memory and release all claimed resources.`)) {
-      await terminateProcess(pid);
-      setNotification(`Process ${pid} terminated. All assigned resources reclaimed.`);
+  const handleDelete = async (pid) => {
+    if (window.confirm(`Delete process ${pid} permanently? This will remove it from the system and release all memory & resources.`)) {
+      await deleteProcess(pid);
+      setNotification(`Process ${pid} deleted permanently.`);
       setTimeout(() => setNotification(''), 4000);
     }
   };
@@ -198,7 +201,7 @@ export default function Processes() {
                         <select 
                           value={p.state} 
                           onChange={(e) => handleStateChange(p.pid, e.target.value)}
-                          className="bg-slate-950 text-slate-200 border border-slate-700 rounded-lg px-2 py-1 text-xs focus:outline-none focus:border-indigo-500 font-mono"
+                          className="bg-white text-blue-950 border border-blue-200 rounded-lg px-2.5 py-1 text-xs focus:outline-none focus:border-blue-500 font-mono font-medium shadow-xs cursor-pointer hover:border-blue-300"
                         >
                           <option value="NEW">NEW</option>
                           <option value="READY">READY</option>
@@ -207,14 +210,13 @@ export default function Processes() {
                           <option value="TERMINATED">TERMINATED</option>
                         </select>
 
-                        {/* Terminate Process */}
+                        {/* Delete Process */}
                         <button 
-                          onClick={() => handleTerminate(p.pid)} 
-                          disabled={p.state === 'TERMINATED'}
-                          className="p-1.5 text-slate-400 hover:text-rose-400 hover:bg-slate-800 rounded-lg transition-colors disabled:opacity-30"
-                          title="Terminate process"
+                          onClick={() => handleDelete(p.pid)} 
+                          className="p-1.5 text-rose-500 hover:text-rose-700 hover:bg-rose-50 rounded-lg transition-colors border border-transparent hover:border-rose-200 cursor-pointer"
+                          title="Delete process permanently"
                         >
-                          <Trash2 className="w-3.5 h-3.5" />
+                          <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
                     </td>

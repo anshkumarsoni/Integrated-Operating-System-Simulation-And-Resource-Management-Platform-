@@ -207,10 +207,8 @@ export default function ProcessReportModal({ isOpen, onClose, processes = [], os
               onClick={() => setActiveTab('formatted')}
               className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all ${
                 activeTab === 'formatted' 
-                  ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-600/30' 
-                  : isLight
-                    ? 'bg-slate-100 text-slate-600 hover:text-slate-900 hover:bg-slate-200'
-                    : 'bg-slate-850 text-slate-400 hover:text-white'
+                  ? 'bg-blue-600 text-white shadow-sm shadow-blue-600/30' 
+                  : 'bg-blue-50 text-blue-600 hover:text-blue-900 hover:bg-blue-100 border border-blue-200'
               }`}
             >
               Visual Audit & Cycle
@@ -219,13 +217,11 @@ export default function ProcessReportModal({ isOpen, onClose, processes = [], os
               onClick={() => setActiveTab('raw')}
               className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all ${
                 activeTab === 'raw' 
-                  ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-600/30' 
-                  : isLight
-                    ? 'bg-slate-100 text-slate-600 hover:text-slate-900 hover:bg-slate-200'
-                    : 'bg-slate-850 text-slate-400 hover:text-white'
+                  ? 'bg-blue-600 text-white shadow-sm shadow-blue-600/30' 
+                  : 'bg-blue-50 text-blue-600 hover:text-blue-900 hover:bg-blue-100 border border-blue-200'
               }`}
             >
-              Plain Text (ChatGPT / Report)
+              Plain Text Report
             </button>
           </div>
 
@@ -234,21 +230,17 @@ export default function ProcessReportModal({ isOpen, onClose, processes = [], os
             {/* Copy Button */}
             <button
               onClick={handleCopy}
-              className="flex items-center px-3 py-1.5 rounded-xl text-xs font-medium border transition-colors bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-200"
+              className="flex items-center px-3 py-1.5 rounded-xl text-xs font-medium border transition-colors bg-blue-50 hover:bg-blue-100 text-blue-700 border-blue-200"
               title="Copy plain-text report to clipboard"
             >
-              {copied ? <Check className="w-3.5 h-3.5 mr-1.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5 mr-1.5 text-indigo-600" />}
+              {copied ? <Check className="w-3.5 h-3.5 mr-1.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5 mr-1.5 text-blue-600" />}
               {copied ? 'Copied!' : 'Copy Text'}
             </button>
 
             {/* Download TXT */}
             <button
               onClick={handleDownloadTxt}
-              className={`flex items-center px-3 py-1.5 rounded-xl text-xs font-medium border transition-colors ${
-                isLight
-                  ? 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-200'
-                  : 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
-              }`}
+              className="flex items-center px-3 py-1.5 rounded-xl text-xs font-medium border transition-colors bg-blue-50 hover:bg-blue-100 text-blue-700 border-blue-200"
               title="Download as .txt file"
             >
               <Download className="w-3.5 h-3.5 mr-1.5 text-emerald-600" />
@@ -258,11 +250,7 @@ export default function ProcessReportModal({ isOpen, onClose, processes = [], os
             {/* Download CSV */}
             <button
               onClick={handleDownloadCSV}
-              className={`flex items-center px-3 py-1.5 rounded-xl text-xs font-medium border transition-colors ${
-                isLight
-                  ? 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-200'
-                  : 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
-              }`}
+              className="flex items-center px-3 py-1.5 rounded-xl text-xs font-medium border transition-colors bg-blue-50 hover:bg-blue-100 text-blue-700 border-blue-200"
               title="Download CSV for Excel"
             >
               <BarChart3 className="w-3.5 h-3.5 mr-1.5 text-purple-600" />
@@ -272,7 +260,7 @@ export default function ProcessReportModal({ isOpen, onClose, processes = [], os
             {/* Print Button */}
             <button
               onClick={handlePrint}
-              className="flex items-center px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-xl shadow-sm transition-colors"
+              className="flex items-center px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-xl shadow-sm transition-colors"
               title="Print report or save to PDF"
             >
               <Printer className="w-3.5 h-3.5 mr-1.5" />
@@ -810,10 +798,10 @@ export default function ProcessReportModal({ isOpen, onClose, processes = [], os
 
           </div>
         ) : (
-          /* Tab 2: Raw / Plain Text for Copying to ChatGPT & Documentation */
+          /* Tab 2: Raw / Plain Text for Copying to Documentation & Reports */
           <div className="space-y-3">
             <div className={`flex items-center justify-between text-xs ${isLight ? 'text-slate-600' : 'text-slate-400'}`}>
-              <span>Includes complete ASCII process lifecycle diagram, ready to copy into ChatGPT or project report:</span>
+              <span>Includes complete ASCII process lifecycle diagram, ready to copy into your project report or documentation:</span>
               <button
                 onClick={handleCopy}
                 className="text-indigo-600 hover:text-indigo-700 font-semibold flex items-center"
@@ -844,11 +832,7 @@ export default function ProcessReportModal({ isOpen, onClose, processes = [], os
           <button
             type="button"
             onClick={onClose}
-            className={`px-5 py-2 font-semibold rounded-xl text-xs transition-colors ${
-              isLight 
-                ? 'bg-slate-200 hover:bg-slate-300 text-slate-800' 
-                : 'bg-slate-800 hover:bg-slate-700 text-slate-200'
-            }`}
+            className="px-5 py-2 font-semibold rounded-xl text-xs transition-colors bg-blue-100 hover:bg-blue-200 text-blue-900 border border-blue-200"
           >
             Close Report
           </button>

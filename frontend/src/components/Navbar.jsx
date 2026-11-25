@@ -8,11 +8,11 @@ const Navbar = ({ onMenuClick, title = 'Dashboard Overview' }) => {
   const { resetAll, refreshAll } = useSimulation();
 
   return (
-    <header className="h-16 flex items-center justify-between px-4 lg:px-8 bg-white border-b border-slate-200 shrink-0 select-none shadow-sm">
+    <header className="h-16 flex items-center justify-between px-4 lg:px-8 bg-white border-b border-blue-100 shrink-0 select-none shadow-xs">
       <div className="flex items-center space-x-3">
         <button
           onClick={onMenuClick}
-          className="lg:hidden p-2 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors"
+          className="lg:hidden p-2 rounded-lg text-slate-500 hover:text-blue-700 hover:bg-blue-50 transition-colors"
           title="Toggle Navigation Menu"
         >
           <Menu className="w-5 h-5" />
@@ -34,13 +34,13 @@ const Navbar = ({ onMenuClick, title = 'Dashboard Overview' }) => {
           onClick={() => {
             refreshAll();
           }}
-          className="p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200 hover:border-slate-300"
+          className="p-2 text-slate-500 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-colors border border-blue-200 hover:border-blue-300"
           title="Refresh All Modules"
         >
           <RefreshCw className="w-4 h-4" />
         </button>
 
-        <div className="h-5 w-px bg-slate-200 hidden sm:block"></div>
+        <div className="h-5 w-px bg-blue-200 hidden sm:block"></div>
 
         {/* User Profile & Logout */}
         <div className="flex items-center space-x-3">

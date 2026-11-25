@@ -48,6 +48,12 @@ export const SimulationProvider = ({ children }) => {
     return res;
   };
 
+  const deleteProcess = async (pid) => {
+    const res = osService.deleteProcess(pid);
+    refreshAll();
+    return res;
+  };
+
   const allocateMemory = async (pid, size, algorithm) => {
     const res = osService.allocateMemory(pid, size, algorithm);
     refreshAll();
@@ -106,6 +112,7 @@ export const SimulationProvider = ({ children }) => {
       createProcess,
       updateProcessState,
       terminateProcess,
+      deleteProcess,
       allocateMemory,
       deallocateMemory,
       createIORequest,

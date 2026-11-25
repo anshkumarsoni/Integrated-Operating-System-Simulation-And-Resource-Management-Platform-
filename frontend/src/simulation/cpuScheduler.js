@@ -673,9 +673,14 @@ export class CPUScheduler {
     const isSimultaneousArrival = arrivalSpread === 0;
 
     // 3. Priority Statistics & Critical Task Detection
-    const hasCriticalPriority = procs.some(p => p.priority <= 2) && procs.some(p => p.priority >= 3);
-    const hasHighestPriorityDivergence = procs.some(p => p.priority <= 2);
-    const prioritySpread = Math.max(...priorities) - Math.min(...priorities);
+    const minPriority = Math.min(...priorities);
+    const maxPriority = Math.max(...priorities);
+    const prioritySpread = maxPriority - minPriority;
+    
+    // Critical priority divergence only when there is an actual critical priority (<= 2)
+    // AND a wide spread between critical and background processes (spread >= 3)
+    // AND at least one background process with priority >= 4
+    const hasCriticalPriority = procs.some(p => p.priority <= 2) && procs.some(p => p.priority >= 4) && prioritySpread >= 3;
 
     // 4. Convoy Effect Hazard Detection: Long burst arriving first at t=min followed by shorter jobs
     const sortedByArrival = [...procs].sort((a, b) => a.arrival - b.arrival || a.burst - b.burst);
@@ -683,7 +688,7 @@ export class CPUScheduler {
     const subsequentProcs = sortedByArrival.slice(1);
     const isConvoyHazard = subsequentProcs.length > 0 && 
       firstProc.burst >= meanBurst * 1.3 && 
-      subsequentProcs.some(p => p.burst <= firstProc.burst * 0.45);
+      subsequentProcs.some(p => p.burst <= firstProc.burst * 0.5);
 
     // 5. Optimal Time Quantum for Round Robin (Calibrated based on burst characteristics)
     const sortedBursts = [...bursts].sort((a, b) => a - b);
@@ -761,17 +766,8 @@ export class CPUScheduler {
     let scenarioType = 'Batch Queue';
     let decisionRationale = '';
 
-    // Scenario 1: Real-Time & Critical Priority Divergence
-    if (hasCriticalPriority || (hasHighestPriorityDivergence && prioritySpread >= 3)) {
-      scenarioId = 'CRITICAL_REALTIME';
-      scenarioName = 'Mission-Critical & Real-Time Task Workload';
-      scenarioType = 'Real-Time / Critical';
-      selectedAlgo = 'Priority';
-      selectedPreemptive = arrivalSpread > 0;
-      decisionRationale = `High priority divergence detected (${procs.filter(p => p.priority <= 2).length} critical process(es) with priority ≤ 2). ${selectedPreemptive ? 'Preemptive' : 'Non-Preemptive'} Priority Scheduling is selected to guarantee urgent kernel/system services meet deadline constraints without being blocked by background processes.`;
-    }
-    // Scenario 2: Convoy Effect Hazard in Dynamic Arrivals -> SRTF
-    else if (isConvoyHazard && arrivalSpread > 0) {
+    // Rule 1: Convoy Effect Hazard in Dynamic Arrivals -> SRTF
+    if (isConvoyHazard && arrivalSpread > 0) {
       scenarioId = 'CONVOY_HAZARD';
       scenarioName = 'Dynamic Staggered Burst (Convoy Effect Hazard)';
       scenarioType = 'Dynamic Queue';
@@ -779,16 +775,34 @@ export class CPUScheduler {
       selectedPreemptive = true; // SRTF
       decisionRationale = `Convoy Effect Risk Detected: Process ${firstProc.pid} (${firstProc.burst}ms) arrives at t=${firstProc.arrival}ms and would block subsequent shorter processes. SRTF (Preemptive SJF) is chosen to immediately preempt long tasks when short jobs arrive, drastically reducing Average Turnaround Time to ${resSRTF.summary.avgTurnaround}ms (vs FCFS ${resFCFS.summary.avgTurnaround}ms).`;
     }
-    // Scenario 3: Batch Processing with High Burst Variance (Simultaneous Arrivals) -> SJF Non-Preemptive
-    else if (cv >= 0.35 && isSimultaneousArrival) {
+    // Rule 2: Mission-Critical Priority Divergence -> Priority Scheduling
+    else if (hasCriticalPriority) {
+      scenarioId = 'CRITICAL_REALTIME';
+      scenarioName = 'Mission-Critical & Real-Time Task Workload';
+      scenarioType = 'Real-Time / Critical';
+      selectedAlgo = 'Priority';
+      selectedPreemptive = arrivalSpread > 0;
+      decisionRationale = `High priority divergence detected (${procs.filter(p => p.priority <= 2).length} critical process(es) with priority ≤ 2 vs background tasks). ${selectedPreemptive ? 'Preemptive' : 'Non-Preemptive'} Priority Scheduling is selected to guarantee urgent kernel/system services meet deadline constraints without being blocked by background processes.`;
+    }
+    // Rule 3: Simultaneous Batch Arrivals with Varied Bursts -> Non-Preemptive SJF
+    else if (cv >= 0.25 && isSimultaneousArrival) {
       scenarioId = 'BATCH_BURST_VARIATION';
       scenarioName = 'Batch Processing with Varied Burst Times';
       scenarioType = 'Throughput Batch';
       selectedAlgo = 'SJF';
       selectedPreemptive = false; // Non-preemptive SJF
-      decisionRationale = `Simultaneous batch arrivals (all AT=${minArrival}ms) with high burst variance (CV=${cv}). Non-Preemptive SJF is mathematically proven to minimize Average Waiting Time (${resSJF.summary.avgWaiting}ms) by ordering execution by burst length with zero preemption context-switch penalties.`;
+      decisionRationale = `Simultaneous batch arrivals (all AT=${minArrival}ms) with varied burst times (CV=${cv}). Non-Preemptive SJF is mathematically proven to minimize Average Waiting Time (${resSJF.summary.avgWaiting}ms vs FCFS ${resFCFS.summary.avgWaiting}ms) by executing shorter jobs first with zero preemption context-switch penalties.`;
     }
-    // Scenario 4: Homogeneous / Uniform Sequential Batch Queue (CV <= 0.15 or zero variance) -> FCFS
+    // Rule 4: Dynamic Staggered Arrivals with Varied Bursts -> SRTF
+    else if (cv >= 0.30 && arrivalSpread > 0) {
+      scenarioId = 'DYNAMIC_VARIED_ARRIVALS';
+      scenarioName = 'Dynamic Submissions with High Burst Dispersion';
+      scenarioType = 'Dynamic Interactive';
+      selectedAlgo = 'SJF';
+      selectedPreemptive = true; // SRTF
+      decisionRationale = `Dynamic staggered submissions with varied burst durations (CV=${cv}, Arrival Spread=${arrivalSpread}ms). SRTF dynamically allocates CPU to the shortest remaining workload, achieving optimal Average Waiting Time (${resSRTF.summary.avgWaiting}ms vs FCFS ${resFCFS.summary.avgWaiting}ms).`;
+    }
+    // Rule 5: Homogeneous / Uniform Sequential Batch Queue (CV <= 0.15 or zero variance) -> FCFS
     else if (cv <= 0.15 || burstVariance <= 1.0) {
       scenarioId = 'UNIFORM_BATCH';
       scenarioName = 'Homogeneous Sequential Batch Workload';
@@ -797,8 +811,8 @@ export class CPUScheduler {
       selectedPreemptive = false;
       decisionRationale = `Burst times are nearly homogeneous with minimal variance (CV=${cv} ≤ 0.15). First-Come First-Served (FCFS) provides optimal CPU throughput with zero preemptive context-switch overhead and simple FIFO queue predictability.`;
     }
-    // Scenario 5: Multi-Process Interactive Workload requiring Starvation Prevention & Fast Response -> Round Robin
-    else if (n >= 3 && resRR.summary.avgResponse < resFCFS.summary.avgResponse * 0.75) {
+    // Rule 6: Multi-Process Interactive Workload requiring Starvation Prevention & Fast Response -> Round Robin
+    else if (n >= 3 && resRR.summary.avgResponse <= resFCFS.summary.avgResponse) {
       scenarioId = 'INTERACTIVE_TIMESHARING';
       scenarioName = 'Multi-User Interactive Time-Sharing';
       scenarioType = 'Interactive Time-Sharing';
@@ -806,23 +820,25 @@ export class CPUScheduler {
       selectedPreemptive = false;
       decisionRationale = `Multi-process interactive environment requiring fair CPU time allocation and starvation prevention. Round Robin with calibrated quantum (q=${optimalQuantum}ms) slashes initial response latency to ${resRR.summary.avgResponse}ms (vs FCFS ${resFCFS.summary.avgResponse}ms) for fast interactive feedback.`;
     }
-    // Scenario 6: Dynamic Staggered Arrivals with High Variance -> SRTF
-    else if (cv >= 0.4 && arrivalSpread > 0) {
-      scenarioId = 'DYNAMIC_VARIED_ARRIVALS';
-      scenarioName = 'Dynamic Submissions with High Burst Dispersion';
-      scenarioType = 'Dynamic Interactive';
-      selectedAlgo = 'SJF';
-      selectedPreemptive = true; // SRTF
-      decisionRationale = `Dynamic staggered submissions with high burst variance (CV=${cv}, Arrival Spread=${arrivalSpread}ms). SRTF dynamically allocates CPU to the shortest remaining workload, achieving optimal Average Waiting Time (${resSRTF.summary.avgWaiting}ms).`;
-    }
-    // Fallback: Default to FCFS
+    // Fallback: Pick candidate with lowest Average Waiting Time
     else {
-      scenarioId = 'UNIFORM_BATCH';
-      scenarioName = 'Homogeneous Sequential Batch Workload';
-      scenarioType = 'Low-Overhead Batch';
-      selectedAlgo = 'FCFS';
-      selectedPreemptive = false;
-      decisionRationale = `Workload exhibits standard sequential properties. First-Come First-Served (FCFS) provides optimal throughput with zero preemption context-switch penalties.`;
+      if (resSJF.summary.avgWaiting < resFCFS.summary.avgWaiting) {
+        selectedAlgo = 'SJF';
+        selectedPreemptive = false;
+        scenarioId = 'BATCH_BURST_VARIATION';
+        scenarioName = 'Shortest Job First Optimization';
+        scenarioType = 'Throughput Batch';
+        decisionRationale = `Non-Preemptive SJF achieves lower Average Waiting Time (${resSJF.summary.avgWaiting}ms vs FCFS ${resFCFS.summary.avgWaiting}ms) by executing shorter tasks first.`;
+      } else {
+        selectedAlgo = 'FCFS';
+        selectedPreemptive = false;
+        scenarioId = 'UNIFORM_BATCH';
+        scenarioName = 'Standard Sequential Workload';
+        scenarioType = 'Low-Overhead Batch';
+        selectedAlgo = 'FCFS';
+        selectedPreemptive = false;
+        decisionRationale = `Workload exhibits standard sequential properties. First-Come First-Served (FCFS) provides optimal throughput with zero preemption context-switch penalties.`;
+      }
     }
 
     // Find the matching candidate object

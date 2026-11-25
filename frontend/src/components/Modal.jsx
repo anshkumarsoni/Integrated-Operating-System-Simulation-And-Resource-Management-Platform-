@@ -43,14 +43,14 @@ const Modal = ({ isOpen, onClose, title, children, size = 'md', theme = 'light',
       <div className={cn(
         "relative w-full rounded-2xl shadow-2xl transform transition-all",
         isLight 
-          ? "bg-slate-50 border border-slate-200 text-slate-800 shadow-slate-900/10" 
+          ? "bg-[#f0f7ff] border border-blue-200 text-slate-800 shadow-blue-900/10" 
           : "bg-slate-900 border border-slate-700 text-slate-100",
         sizeClasses[size] || sizeClasses.md,
         className
       )}>
         <div className={cn(
           "flex items-center justify-between p-4 border-b",
-          isLight ? "border-slate-200/80 bg-white rounded-t-2xl" : "border-slate-800"
+          isLight ? "border-blue-100 bg-white rounded-t-2xl" : "border-slate-800"
         )}>
           <h3 className={cn("text-lg font-semibold", isLight ? "text-slate-800" : "text-slate-100")}>{title}</h3>
           <button 
@@ -58,7 +58,7 @@ const Modal = ({ isOpen, onClose, title, children, size = 'md', theme = 'light',
             className={cn(
               "p-1.5 rounded-lg transition-colors",
               isLight 
-                ? "text-slate-400 hover:text-slate-700 hover:bg-slate-100" 
+                ? "text-blue-500 hover:text-blue-800 hover:bg-blue-50" 
                 : "text-slate-400 hover:text-slate-200 hover:bg-slate-800"
             )}
           >

@@ -104,6 +104,10 @@ class OSService {
 
   updateProcessState(pid, newState) {
     const result = this.processMgr.updateProcessState(pid, newState);
+    if (newState === 'TERMINATED') {
+      this.memoryMgr.deallocateMemory(pid);
+      this.resourceMgr.freeAllForProcess(pid);
+    }
     this.logHistory(
       pid,
       'State Changed',
@@ -113,6 +117,21 @@ class OSService {
     );
     this.saveState();
     return { success: true, data: result };
+  }
+
+  deleteProcess(pid) {
+    // 1. Free memory if allocated
+    this.memoryMgr.deallocateMemory(pid);
+    // 2. Free any held resources
+    this.resourceMgr.freeAllForProcess(pid);
+    // 3. Remove from process manager and PCB
+    this.processMgr.deleteProcess(pid);
+    // 4. Log system call
+    this.syscallMgr.logCall(pid, 'delete_process()', 'SUCCESS', `Process ${pid} permanently removed from system.`);
+    // 5. Execution history
+    this.logHistory(pid, 'Process Deleted', 'Process Manager', 'SUCCESS', `Process ${pid} deleted and purged from PCB table.`);
+    this.saveState();
+    return { success: true, pid };
   }
 
   terminateProcess(pid) {

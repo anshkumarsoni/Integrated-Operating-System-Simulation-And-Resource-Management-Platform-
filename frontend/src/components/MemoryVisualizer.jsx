@@ -4,8 +4,8 @@ import { cn } from '../utils/helpers';
 const MemoryVisualizer = ({ blocks = [], totalMemory = 1024 }) => {
   if (!blocks || blocks.length === 0) {
     return (
-      <div className="flex items-center justify-center h-48 bg-slate-950 rounded-xl border border-slate-800 border-dashed">
-        <span className="text-slate-500 text-sm">No memory blocks configured</span>
+      <div className="flex items-center justify-center h-48 bg-blue-50/40 rounded-xl border border-blue-200 border-dashed">
+        <span className="text-blue-600 text-sm font-medium">No memory blocks configured</span>
       </div>
     );
   }
@@ -16,13 +16,13 @@ const MemoryVisualizer = ({ blocks = [], totalMemory = 1024 }) => {
     <div className="space-y-4">
       {/* Horizontal Continuous Physical Bar */}
       <div>
-        <div className="flex justify-between text-xs text-slate-400 mb-1.5 font-mono">
+        <div className="flex justify-between text-xs text-blue-800 mb-1.5 font-mono">
           <span>0 MB (0x00000000)</span>
           <span>Physical Address Space: {totalMemory} MB</span>
           <span>{totalMemory} MB</span>
         </div>
         
-        <div className="h-12 w-full rounded-xl overflow-hidden border border-slate-800 bg-slate-950 flex shadow-inner">
+        <div className="h-12 w-full rounded-xl overflow-hidden border border-blue-200 bg-blue-50/40 flex shadow-inner">
           {blocks.map((block) => {
             const widthPercent = (block.size / safeTotalMemory) * 100;
             const isAllocated = block.status === 'Allocated' || Boolean(block.pid);
@@ -31,8 +31,8 @@ const MemoryVisualizer = ({ blocks = [], totalMemory = 1024 }) => {
               <div
                 key={block.id}
                 className={cn(
-                  "h-full border-r border-slate-900 flex flex-col items-center justify-center relative group transition-all",
-                  isAllocated ? "bg-indigo-600/80 hover:bg-indigo-600 text-white" : "bg-slate-800/60 hover:bg-slate-800 text-slate-400"
+                  "h-full border-r border-blue-200 flex flex-col items-center justify-center relative group transition-all",
+                  isAllocated ? "bg-blue-600 hover:bg-blue-700 text-white" : "bg-blue-100/80 hover:bg-blue-200 text-blue-800"
                 )}
                 style={{ width: `${widthPercent}%` }}
                 title={`${block.name || `Block ${block.id}`} (${block.size} MB) - ${isAllocated ? `Allocated to ${block.pid}` : 'Free'}`}
@@ -59,35 +59,35 @@ const MemoryVisualizer = ({ blocks = [], totalMemory = 1024 }) => {
               className={cn(
                 "p-3 rounded-lg border transition-all",
                 isAllocated 
-                  ? "bg-indigo-950/30 border-indigo-500/40 text-slate-200" 
-                  : "bg-slate-950/60 border-slate-800 text-slate-400"
+                  ? "bg-blue-50/80 border-blue-200 text-slate-800 shadow-xs hover:border-blue-300" 
+                  : "bg-sky-50/60 border-sky-200 text-slate-700 shadow-xs hover:border-sky-300"
               )}
             >
               <div className="flex items-center justify-between mb-1">
-                <span className="text-xs font-bold font-mono text-white">{block.name || `Block ${block.id}`}</span>
+                <span className="text-xs font-bold font-mono text-blue-900">{block.name || `Block ${block.id}`}</span>
                 <span className={cn(
                   "text-[10px] px-2 py-0.5 rounded font-mono font-semibold",
-                  isAllocated ? "bg-indigo-500/20 text-indigo-300 border border-indigo-500/30" : "bg-slate-800 text-slate-400"
+                  isAllocated ? "bg-blue-100 text-blue-700 border border-blue-300" : "bg-sky-100 text-sky-800 border border-sky-300"
                 )}>
                   {isAllocated ? 'ALLOCATED' : 'FREE'}
                 </span>
               </div>
               <div className="flex justify-between text-xs mt-1">
-                <span className="text-slate-400">Capacity:</span>
-                <span className="font-mono text-white font-medium">{block.size} MB</span>
+                <span className="text-slate-500">Capacity:</span>
+                <span className="font-mono text-slate-900 font-semibold">{block.size} MB</span>
               </div>
               <div className="flex justify-between text-xs mt-0.5">
-                <span className="text-slate-400">Start Offset:</span>
-                <span className="font-mono text-slate-400">{block.start} MB</span>
+                <span className="text-slate-500">Start Offset:</span>
+                <span className="font-mono text-slate-700">{block.start} MB</span>
               </div>
               {isAllocated && (
                 <>
-                  <div className="flex justify-between text-xs mt-0.5 text-indigo-300 font-medium">
+                  <div className="flex justify-between text-xs mt-0.5 text-blue-700 font-medium">
                     <span>Process PID:</span>
                     <span className="font-mono font-bold">{block.pid}</span>
                   </div>
                   {block.internalFrag > 0 && (
-                    <div className="flex justify-between text-xs mt-0.5 text-amber-400">
+                    <div className="flex justify-between text-xs mt-0.5 text-amber-600 font-medium">
                       <span>Internal Frag:</span>
                       <span className="font-mono">{block.internalFrag} MB</span>
                     </div>

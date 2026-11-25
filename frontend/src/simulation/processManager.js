@@ -8,7 +8,7 @@ export class ProcessManager {
   }
 
   getProcesses() {
-    return [...this.processes];
+    return this.processes.map(p => ({ ...p }));
   }
 
   getProcess(pid) {
