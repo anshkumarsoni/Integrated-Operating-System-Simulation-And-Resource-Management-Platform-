@@ -27,7 +27,7 @@ export const getActiveConfig = () => ({
   hasPassword: Boolean(currentConfig.password)
 });
 
-// Test raw credentials without switching the active pool
+
 export async function testConnection(config = {}) {
   const merged = { ...currentConfig, ...config };
   let connection = null;
@@ -59,7 +59,7 @@ export async function testConnection(config = {}) {
   }
 }
 
-// Connect and set as the active application pool
+
 export async function setConnection(config = {}) {
   const merged = {
     ...currentConfig,
@@ -69,19 +69,18 @@ export async function setConnection(config = {}) {
     multipleStatements: true
   };
 
-  // Close existing pool if any
   if (activePool) {
     try { await activePool.end(); } catch (_) {}
     activePool = null;
   }
 
-  // First verify credentials against MySQL
+
   const testRes = await testConnection(merged);
   if (!testRes.success) {
     throw new Error(testRes.error || 'Failed to authenticate with MySQL server');
   }
 
-  // Create new pool
+
   activePool = mysql.createPool({
     host: merged.host,
     port: merged.port,

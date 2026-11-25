@@ -18,7 +18,7 @@ export default function MemoryManagement() {
   const [deallocPid, setDeallocPid] = useState('');
   const [message, setMessage] = useState({ text: '', type: '' });
 
-  // When a process is selected, auto-fill its required memory
+
   const handleProcessSelect = (pid) => {
     setSelectedPid(pid);
     const proc = processes.find(p => p.pid === pid);

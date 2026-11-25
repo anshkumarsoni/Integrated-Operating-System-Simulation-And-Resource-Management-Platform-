@@ -13,7 +13,6 @@ export default function FileSystem() {
   const [fileContent, setFileContent] = useState('');
   const [permissions, setPermissions] = useState('rw-r--r--');
 
-  // Modal States
   const [isNewFileModalOpen, setIsNewFileModalOpen] = useState(false);
   const [isNewDirModalOpen, setIsNewDirModalOpen] = useState(false);
   const [newFileName, setNewFileName] = useState('');
